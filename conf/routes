@@ -1,0 +1,109 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET        /                                              controllers.Application.index(lang: String ?= null)
+GET        /faq                                           controllers.Application.faq()
+GET        /login                                         controllers.Application.loginPage()
+GET        /eula                                          controllers.Application.showEula()
+GET        /pp                                            controllers.Application.showPrivacyPolicy()
+
+# Map static resources from the /public folder to the /assets URL path
+GET        /assets/*file                                 controllers.Assets.versioned(path="/public", file: Asset)
+
+#User account-related stuff
+
+POST       /users/register                               controllers.Users.register()
+POST       /users/login                                  controllers.Users.login()
+POST       /users/:token/refresh                         controllers.Users.refreshToken(token: String)
+GET        /users/:id/get                                controllers.Users.getUser(id: Long)
+GET        /users/me                                     controllers.Users.getMyDetails
+GET        /users/:id/image                              controllers.Users.getImage(id: Long, size: Int ?= -1)
+PUT        /users/myImage                                controllers.Users.setMyImage()
+PUT        /users/myProfile                              controllers.Users.setMyProfile()
+GET        /users/checkpw                                controllers.Users.checkPassword(pwd: String ?= null)
+PUT        /users/changepw                               controllers.Users.changePassword()
+POST       /group/:id/requestWrite                       controllers.Users.joinGroup(id: Long)
+
+#Group- and group management- related stuff
+
+
+GET        /groups/                                      controllers.Users.getGroups
+GET        /groups/:id                                   controllers.Groups.getGroup(id: Long)
+POST       /groups/                                      controllers.Groups.addGroup()
+GET        /groups/:name/search                          controllers.Groups.searchGroup(name: String)
+PUT        /groups/:id/leave                             controllers.Users.leaveGroup(id: Long)
+DELETE     /groups/:id                                   controllers.Groups.removeGroup(id: Long)
+PUT        /groups/:id                                   controllers.Groups.updateGroup(id: Long)
+PUT        /groups/:id/image                             controllers.Groups.addImage(id: Long)
+GET        /groups/:id/image                             controllers.Groups.getImage(id: Long, size: Int ?= -1)
+GET        /groups/:id/members                           controllers.Groups.getUsers(id: Long)
+GET        /groups/:id/requests                          controllers.Groups.getWriteRequests(id: Long)
+
+PUT        /groups/:groupId/invite                       controllers.Groups.invite(groupId: Long)
+PUT        /groups/:groupId/grantWrite/:user             controllers.Groups.grantWriteAccess(user: Long, groupId: Long)
+PUT        /groups/:groupId/grantModify/:user            controllers.Groups.grantModifyAccess(user: Long, groupId: Long)
+PUT        /groups/:groupId/grantOwner/:user             controllers.Groups.grantOwner(user: Long, groupId: Long)
+PUT        /groups/:groupId/revokeWrite/:user            controllers.Groups.revokeWrite(user: Long, groupId: Long)
+
+#Course-related stuff
+
+GET        /courses/:id                                  controllers.Courses.getCourse(id: Long)
+POST       /courses/                                     controllers.Courses.addCourse()
+GET        /group/:id/courses/                           controllers.Courses.getCoursesInGroup(id: Long)
+DELETE     /courses/:id                                  controllers.Courses.removeCourse(id: Long)
+PUT        /courses/:id                                  controllers.Courses.updateCourse(id: Long)
+PUT        /courses/:id/hide                             controllers.Courses.hideCourse(id: Long)
+PUT        /group/:id/showAllCourses                     controllers.Courses.showAllCourses(id: Long)
+GET        /course/:id/lessons                           controllers.Courses.getLessons(id: Long)
+PUT        /course/:id/lesson/:name                      controllers.Courses.renameLesson(id: Long, name: String)
+DELETE     /course/:id/lesson/:name                      controllers.Courses.removeLesson(id: Long, name: String)
+PUT        /course/:id/:lesson/hide                      controllers.Courses.hideLesson(id: Long, lesson: String)
+PUT        /course/:id/showAllLessons                    controllers.Courses.showAllLessons(id: Long)
+PUT        /courses/:id/image                            controllers.Courses.addImage(id: Long)
+GET        /courses/:id/image                            controllers.Courses.getImage(id: Long, size: Int ?= -1)
+PUT        /group/:id/filterCourses                      controllers.Courses.filterCourses(id: Long)
+
+#Note-related stuff
+
+GET        /notes/:id                                    controllers.Notes.getNote(id: Long)
+POST       /notes/                                       controllers.Notes.addNote()
+GET        /course/:courseId/:lesson/notes/              controllers.Notes.getNotesInCourse(courseId: Long, lesson: String)
+DELETE     /notes/:id                                    controllers.Notes.removeNote(id: Long)
+PUT        /notes/:id                                    controllers.Notes.updateNote(id: Long)
+PUT        /notes/:id/hide                               controllers.Notes.hideNote(id: Long)
+PUT        /course/:id/:lesson/showAllNotes              controllers.Notes.showAllNotes(id: Long, lesson: String)
+PUT        /notes/:id/image                              controllers.Notes.addImage(id: Long)
+GET        /notes/:id/image                              controllers.Notes.getImage(id: Long, size: Int ?= -1)
+PUT        /notes/:id/audio                              controllers.Notes.addAudio(id: Long)
+GET        /notes/:id/audio                              controllers.Notes.getAudio(id: Long)
+GET        /notes/:id/edits                              controllers.Notes.getEdits(id: Long)
+PUT        /notes/:id/reorder/:position                  controllers.Notes.reorderNote(id: Long, position: Int)
+
+#Question-related stuff
+
+GET        /questions/:id                                controllers.Questions.getQuestion(id: Long)
+POST       /questions/                                   controllers.Questions.addQuestion()
+GET        /course/:courseId/:lesson/questions/          controllers.Questions.getQuestionsInLesson(courseId: Long, lesson: String)
+DELETE     /questions/:id                                controllers.Questions.removeQuestion(id: Long)
+PUT        /questions/:id                                controllers.Questions.updateQuestion(id: Long)
+PUT        /questions/:id/hide                           controllers.Questions.hideQuestion(id: Long)
+PUT        /course/:id/:lesson/showAllQuestions          controllers.Questions.showAllQuestions(id: Long, lesson: String)
+PUT        /questions/:id/image                          controllers.Questions.addImage(id: Long)
+GET        /questions/:id/image                          controllers.Questions.getImage(id: Long, size: Int ?= -1)
+GET        /questions/:id/edits                          controllers.Questions.getEdits(id: Long)
+PUT        /questions/:id/reorder/:position              controllers.Questions.reorderQuestion(id: Long, position: Int)
+
+#Exam-related stuff
+
+GET        /exams/:id                                    controllers.Exams.getExam(id: Long)
+POST       /exams/                                       controllers.Exams.addExam()
+GET        /group/:groupId/exams/                        controllers.Exams.getExamsInGroup(groupId: Long)
+DELETE     /exams/:id                                    controllers.Exams.removeExam(id: Long)
+PUT        /exams/:id                                    controllers.Exams.updateExam(id: Long)
+PUT        /exams/:id/hide                               controllers.Exams.hideExam(id: Long)
+PUT        /group/:id/showAllExams                       controllers.Exams.showAllExams(id: Long)
+GET        /exams/:id/edits                              controllers.Exams.getEdits(id: Long)
+
+GET        /admin/flushLogs                              controllers.Application.flushLogs

@@ -1,0 +1,42 @@
+@import play.i18n.Messages
+
+@()
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Notekeeper - Login</title>
+        <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="@routes.Assets.versioned("stylesheets/materialize.min.css")"  media="screen,projection"/>
+        <link href="@routes.Assets.versioned("stylesheets/login.css")" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+    <body class="indigo">
+        <div id="login-form" class="white">
+            <form class="col s6 white">
+                <div class="input-field col s4">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input id="input-email" type="email" class="validate" data-error="@Messages.get("login.error.invalidemail)")">
+                    <label for="input-email">@Messages.get("login.form.email")</label>
+                </div>
+                <div class="input-field col s4">
+                    <i class="material-icons prefix">vpn key</i>
+                    <input id="input-password" type="password" class="validate" data-error="@Messages.get("login.error.invalidcreds")">
+                    <label for="input-password">@Messages.get("login.form.password")</label>
+                </div>
+            </form>
+
+
+            <a class="waves-effect waves-light btn-large deep-orange" id="btn-login">@Messages.get("login.button.login")</a>
+        </div>
+
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+        <script type="text/javascript" src="@routes.Assets.versioned("javascripts/materialize.min.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.versioned("javascripts/login.js")"></script>
+    </body>
+</html>

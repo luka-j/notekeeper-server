@@ -1,0 +1,52 @@
+index.title=Notekeeper
+index.download=Preuzmi
+index.app.short_desc=Aplikacija za čuvanje i organizovanje beleški
+index.app.motto=Poslednje beleške koje ćeš morati da hvataš
+index.app.motto.desc.p1=Otvori galeriju na svom telefonu i prebroj koliko imaš fotografija tuđih svezaka. Ja ih imam na desetine, i to samo zato što ih izbrišem kada prestanu da budu korisne. Ako želiš da unaprediš svoje beleške, to je jedini način, zar ne? Pa, bio je, do sad. Zašto bi koristio/la neku drugu društvenu mrežu za deljenje svojih beleški, kada možeš imati jednu posveénu samo tome?
+index.app.motto.desc.p2=[TODO insert name] ti omogućava to, i još par drugih stvari, poput rasporeda kontrolnih zadataka i ispita. I podaci nikada ne prestaju da budu korisni - možeš sakriti stvari koje te trenutno ne interesuju, ali sve stavke će ostati tvojim mlađim školskim drugovima. To znači da treba da hvataš beleške još jednu, poslednju, godinu, a nakon toga samo poboljšavaš tuđi rad.
+index.motto2=Od učenika, za učenike
+index.feature.questions.title=Pitanja i beleške
+index.feature.questions.text=Zajedno s beleškama, takođe možeš čuvati i pitanja kako bi osvežio/la svoje i pamćenje svojih vršnjaka ili dao/la primere mogućih pitanja za test
+index.feature.groups.title=Napravljeno s grupama na umu
+index.feature.groups.text=Tvoja škola ili fakultet je predstavljena kao jedna grupa, gde svako može da dodaje ili menja sadržaj. Da bi snalaženje bilo lakše, podeljena je u kurseve, koji se sastoje od predmeta, imena nastavnika ili profesora koji ih drži i godine, koji se dalje dele u lekcije. Možeš ih sakriti u bilo koje doba (kao i ponovo ih prikazati), ili filtrirati samo one godine koje te zanimaju.
+index.feature.media.title=Podrška za slike i audio snimke
+index.feature.media.text=Možeš prikačiti sliku uz bilo koju belešku ili pitanje, ili okačiti belešku sa audio snimkom, ako ti se to čini lakšim ili korisnijim od tradicionalnog zapisivanja svega. Sve slike se čuvaju na serveru, i preuzimaju u punoj veličini (maksimalno 2580px široke).
+index.feature.offline.title=Radi oflajn
+index.feature.offline.text=Svi podaci se takođe čuvaju na tvom uređaju, tako da možeš da ih pregledaš i dok nisi povezan na internet. Slike se nalaze u skladištu tvog telefona, u folderu DCIM/StudyGroup, a snimci pod recordings/StudyGroup, ako ikada poželiš da baciš pogled na njih van aplikacije
+index.feature.public.title=Sve je javno
+index.feature.public.text=Svom sadržaju, sem stvarima koje su povezane s ispitima i audio snimcima, može svako da pristupi. Zanima te šta rade ljudi u drugim školama? Potraži ih! Kako izgledaju lekcije na željenom fakultetu? Nema problema! (Samo treba da ih nateraš da preuzmu aplikaciju)
+index.feature.android.title=Android aplikacija
+index.feature.android.text=Trenutno jedini način da pristupiš aplikaciji je putem Android aplikacije, ali radim i na veb platformi (zainteresovan/a? Ako si programer, postoji REST API koji će ti možda biti zanimljiv, <a href="mailto:luka.jovicic16@gmail.com">kontaktiraj me</a>)
+index.footer.title=O menu
+index.footer.text=Ja sam samo običan tinejdžer, učenik srednje škole, i na ovo trošim svoje slobodno vreme. Možeš me <a href="https://plus.google.com/u/0/+LukaJovicic00" class="deep-orange-text text-lighten-1">naći na Google+-u</a> i na još par drugih mesta. Međutim, ako imaš predlog, žalbu, pitanje, ili samo želiš da ispričaš priču, najbolje bi bilo da mi <a href="mailto:luka.jovicic16@gmail.com" class="deep-orange-text text-lighten-1">pošalješ mail</a>.
+
+faq.whynotothers.question=Šta nije u redu s drugim mrežama?
+faq.whynotothers.answer=Apsolutno ništa! Meni se samo čini da je ovo bolji alat za taj posao. Ako ti ne smeta slanje slika svojih beležaka ili prepričavanje pitanja s kontrolnog ili ispita svakome, svaki put, možeš slobodno da nastaviš
+faq.whatsthefuss.question=Pa, šta je toliko velika razlika?
+faq.whatsthefuss.answer=Notekeeper stavlja akcenat na grupu, umesto na pojedinca. Svaki član može da dodaje nove stvari ili menja već postojeće, i to je sve vidljivo javno. Misli o tome kao nekoj vrsti vikija.
+faq.howtostart.question=Okej, preuzeo/la sam aplikaciju, šta sad?
+faq.howtostart.answer=Prvo, registruj nalog. Tvoj email neće biti korišćen za spam, i tvoja lozinka je potpuno bezbedna, obećavam. Sledeće, nađi par prijatelja koji će da urade isto. Možeš da je koristiš sam/a, ali ako hoćeš da vidiš njen potpun potencijal, trebaće ti više ljudi da kreiraju sadržaj. Napravi grupu ako tvoja škola/fakultet/šta god pohađaš već nema jednu, i dodaj kurseve na koje ideš. Voilá, spreman/na si da dodaješ neke beleške i pitanja!
+faq.multiplegroups.question=Da li mogu da budem u više grupa?
+faq.multiplegroups.answer=Naravno, što da ne? Sve grupe, zajedno sa njihovim mogućim opcijama i delovima se nalaze s desne strane tvog ekrana, u tzv. "navigacionoj fioci" (navigation drawer). Ispod njih su opcije za pretragu grupa i pravljenje nove.
+faq.specialsymbols.question=Mogu li da koristim još neke simbole sem latiničnih?
+faq.specialsymbols.answer=Drago mi je što si pitao/la! Možeš koristiti bilo koje Unicode simbole (to uključuje skoro sve što može da ti padne na pamet). Međutim, pošto tamo odakle ja dolazim koristimo grčka slova i ona mala slovca i brojeve iznad i ispod, kako god se zvali (stepeni i indeksi u matematici) češće nego druge simbole, postoje specijalne prečice: ako hoćeš da se grčko slovo pojavi umesto latiničnog, ubaci naopaku kosu crtu (\\), ako želiš da se broj ili slovo pojavi iznad običnog teksta, koristi simbol za to (neki ga zovu vrhić, ^), dok je za pojavljivanje broja niže potrebno koristiti donju crtu (_, ovo važi samo za brojeve). Da bi otkucao \\ i ^ normalno, potrebno je uneti ih dvaput (tako je \\\\ u stvari jedna crta), dok je za donju crtu to neophodno samo ako se nalazi ispred broja (pa __1 postaje _1). Još jedna stvar: dupla kosa crta (//) će biti zamenjena sa razlomačkom crtom (⁄). Kombinuj to sa malim simbolima koji se pojavljuju gore ili doze (tzv. superscript i subscript-ovi, ili kako god se već zovu na srpskom) da sastaviš razlomke!
+faq.members.question=Vidim različite dozvole na ekranu "Prikaži članove". Po čemu se razlikuju?
+faq.members.answer=Član grupe može imati tri uloge: vlasnik, mod i običan "član". Samo vlasnik može da postavlja modove i menja detalje grupe. Mod može da menja detalje kursa, preimenuje lekcije i briše stvari tako da ih više niko ne može videti (za razliku od sakrivanja, koje utiče samo na jednog korisnika). Bilo ko može da menja ispite, beleške i pitanja, kao i da dodaje nove. Članovi takođe mogu i da dodaju nove kurseve.
+faq.public.question=Šta je tačno javno?
+faq.public.answer=Svi kursevi, lekcije, osim onih koje su vezane za ispit, beleške i pitanja (osim onih koji pripadaju lekcijama ispita) i njihove slike. Ispiti i sve što se nalazi unutar njih, kao i audio snimci su vidljivi samo članovima grupe.
+faq.filter.question=U mojoj grupi se nalaze na desetine kurseva. Ne želim da ih vidim sve, da li mogu nekako sve zajedno da ih sakrijem?
+faq.filter.answer=U gornjem desnom uglu se nalazi ikonica u obliku levka. Proveri šta radi!
+faq.crash.question=Aplikacija je naglo izašla/prijavljuje grešku, šta da radim?
+faq.crash.answer=O, ne! <a href="mailto:luka.jovicic16@gmail.com">Pošalji mi mail</a> i napiši šta si tačno radio/la pre nego što se to desilo, što detaljnije možeš i koju grešku vidiš, a ja ću pogledati o čemu se radi.
+faq.offline.question=Kaže da sam oflajn, šta do znači?
+faq.offline.answer=Ako si konektovan/a, onda je to greška, vidi prethodno pitanje. Ako stvarno nisi povezan/a na internet, to znači da nećeš moći da dodaješ nove stavke ili menjaš već postojeće, a sve izmene koje napraviš, poput sakrivanja stvari, neće "preživeti" (tj. vratiće se na staro sledeći put kad se konektuješ)
+faq.refresh.question=Mislim da bi trebalo da vidim nešto, a ono nije tu!
+faq.refresh.answer=Prevuci gore (pod tim mislim "nadole") kako bi osvežio. Ako i dalje nije tu, <a href="mailto:luka.jovicic16@gmail.com">kontaktiraj me</a> i proveriću šta se dešava.
+faq.medialoc.question=Gde se nalaze slike i snimci?
+faq.medialoc.answer=Slike su u lokalnom skladišu, u folderu DCIM/StudyGroup(/ime kursa), a audio zapisi su unutar recordings/StudyGroup/ime kursa. Slobodno ih možeš obrisati; ponovo će biti preuzeti sledeći put kad pristupiš beleškama. Sakrivanje stavki će obrisati sve što je povezano sa njima.
+faq.web.question=Da li nekako mogu da pristupim podacima sa računara?
+faq.web.answer=Ne u ovom trenutku, ali saosećam i znam koliko je teško kucati sve sa malog ekrana. Veb platforma je u izradi, koja će raditi na svim uređajima!
+faq.iphone.question=A šta sa iPhone/iPad -a?
+faq.iphone.answer=Pa, ne posedujem nijedan, ali si više nego dobrodošao/la da mi kupiš neki! Trenutno nemam planova da pišem aplikaciju za njih; kada veb platforma bude gotova, oni će takođe moći da joj pristupe.
+faq.whoareyou.question=Ko si ti?
+faq.whoareyou.answer=

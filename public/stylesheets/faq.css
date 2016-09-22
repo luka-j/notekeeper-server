@@ -1,0 +1,18 @@
+.qa-item {
+    margin: 2rem 0 2rem 0;
+}
+
+.faq-question {
+    font-weight: bold;
+    font-size: 1.4rem;
+    margin: 0 0 -0.7rem 0;
+}
+
+.faq-answer {
+    font-size: 1.3rem;
+}
+
+#logo-img {
+    height: 52px;
+    margin-top: 6px;
+}

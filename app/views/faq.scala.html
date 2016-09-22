@@ -1,0 +1,98 @@
+@import play.i18n.Messages
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>StudyBuddy FAQ</title>
+  <link type="text/css" rel="stylesheet" href="@routes.Assets.versioned("stylesheets/materialize.min.css")"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="@routes.Assets.versioned("stylesheets/faq.css")" media="screen,projection"/>
+</head>
+<body>
+    <nav class="white" role="navigation">
+        <div class="nav-wrapper container">
+            <a id="logo-container" href="/" class="brand-logo"><img src="@routes.Assets.versioned("images/logo.png")" id="logo-img"/></a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <div class="qa-item">
+            <h5 class="faq-question">@Messages.get("faq.whynotothers.question")</h5>
+            <p class="faq-answer">@Messages.get("faq.whynotothers.answer")</p>
+        </div>
+
+        <div class="qa-item">
+            <h5 class="faq-question">@Messages.get("faq.whatsthefuss.question")</h5>
+            <p class="faq-answer">@Messages.get("faq.whatsthefuss.answer")</p>
+        </div>
+
+        <div class="qa-item">
+            <h5 class="faq-question">@Messages.get("faq.howtostart.question")</h5>
+            <p class="faq-answer">@Messages.get("faq.howtostart.answer")</p>
+        </div>
+
+        <div class="qa-item">
+            <h5 class="faq-question">@Messages.get("faq.multiplegroups.question")</h5>
+            <p class="faq-answer">@Messages.get("faq.multiplegroups.answer")</p>
+        </div>
+
+        <div class="qa-item">
+            <h5 class="faq-question">@Messages.get("faq.specialsymbols.question")</h5>
+            <p class="faq-answer">@Messages.get("faq.specialsymbols.answer")</p>
+        </div>
+
+        <div class="qa-item">
+            <h5 class="faq-question">@Messages.get("faq.members.question")</h5>
+            <p class="faq-answer">@Messages.get("faq.members.answer")</p>
+        </div>
+
+        <div class="qa-item">
+            <h5 class="faq-question">@Messages.get("faq.public.question")</h5>
+            <p class="faq-answer">@Messages.get("faq.public.answer")</p>
+        </div>
+
+        <div class="qa-item">
+            <h5 class="faq-question">@Messages.get("faq.filter.question")</h5>
+            <p class="faq-answer">@Messages.get("faq.filter.answer")</p>
+        </div>
+
+        <div class="qa-item">
+            <h5 class="faq-question">@Messages.get("faq.crash.question")</h5>
+            <p class="faq-answer">@Html(Messages.get("faq.crash.answer"))</p>
+        </div>
+
+        <div class="qa-item">
+            <h5 class="faq-question">@Messages.get("faq.offline.question")</h5>
+            <p class="faq-answer">@Messages.get("faq.offline.answer")</p>
+        </div>
+
+        <div class="qa-item">
+            <h2 class="faq-question">@Messages.get("faq.refresh.question")</h2>
+            <p class="faq-answer">@Html(Messages.get("faq.refresh.answer"))</p>
+        </div>
+
+        <div class="qa-item">
+            <h5 class="faq-question">@Messages.get("faq.medialoc.question")</h5>
+            <p class="faq-answer">@Html(Messages.get("faq.medialoc.answer"))</p>
+        </div>
+
+        <div class="qa-item">
+            <h5 class="faq-question">@Messages.get("faq.web.question")</h5>
+            <p class="faq-answer">@Html(Messages.get("faq.web.answer"))</p>
+        </div>
+
+        <div class="qa-item">
+            <h5 class="faq-question">@Messages.get("faq.iphone.question")</h5>
+            <p class="faq-answer">@Html(Messages.get("faq.iphone.answer"))</p>
+        </div>
+
+
+        <div class="qa-item">
+            <h5 class="faq-question">@Messages.get("faq.whoareyou.question")</h5>
+            <p class="faq-answer">@Html(Messages.get("faq.whoareyou.answer"))</p>
+        </div>
+    </div>
+
+</body>
+</html>

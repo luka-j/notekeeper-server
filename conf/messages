@@ -1,0 +1,59 @@
+index.title=Notekeeper
+index.download=Download
+index.app.short_desc=A school-oriented note organizer
+index.app.motto=Last notes you''ll ever take
+index.app.motto.desc.p1=Open up Gallery on your phone and count how many images of your or someone else''s notebooks you have. I have dozens, and only because I delete them after they stop being useful. If you want to improve your notes, that''s the only way, right? Well, it used to be, until now. Why use some other social network to share your notes, when you can have one dedicated only to that?
+index.app.motto.desc.p2=[TODO insert name] provides you with that, and a couple of other things, like exam schedule. And data never stops being useful - you can hide stuff you''re not currently interested in, but all the items will remain for your younger schoolmates. Spend one last year taking notes, and after that only improve other''s work.
+index.motto2=For the students, by the students
+index.feature.questions.title=Notes and questions
+index.feature.questions.text=Along with notes, you can also store questions in order to refresh your and your peers'' memory or provide examples for the exam
+index.feature.groups.title=Made with groups in mind
+index.feature.groups.text=Your school or college is represented by one large group, where everyone can add or edit content. For the ease of browsing, it''s split up into courses, identified by subject, teacher and year, which are further divided into lessons. You can hide them at any time (as well as re-show them), or filter out years you''re not interested in.
+index.feature.media.title=Media support
+index.feature.media.text=You can attach an image to any note or question, or upload a note with an audio recording, if you prefer it to writing out everything. All images are stored on the server, and downloaded in full size (max. 2580px wide).
+index.feature.offline.title=Works offline
+index.feature.offline.text=All data is also stored on your device, so that you can browse everything while you''re not connected to the internet. Images are on your sdcard, under DCIM/StudyGroup, and recordings in recordings/StudyGroup, if you ever need to take a look at them
+index.feature.public.title=Public by default
+index.feature.public.text=All content, except items associated with exams and audio recordings, is accessible to everyone. Interested in what people from other schools do? Look them up! What do lessons look like on your desired college? No problem! (You just need to make them download the app)
+index.feature.android.title=Android app
+index.feature.android.text=At the moment, only way to access the network is through the Android app, but web platform is in the works (interested? If you''re a programmer, there''s a REST API you might find useful, <a href="mailto:luka.jovicic16@gmail.com">contact me</a>)
+index.footer.title=About me
+index.footer.text=I''m just one guy, a high school student, who made all this. You can <a href="https://plus.google.com/u/0/+LukaJovicic00" class="deep-orange-text text-lighten-1">find me on Google+</a> and a few other places. However, if you have a suggestion, complaint, question, or just want to tell a story, your best bet would be to <a href="mailto:luka.jovicic16@gmail.com" class="deep-orange-text text-lighten-1">send me an e-mail</a>.
+index.footer.legal=Legal
+
+faq.whynotothers.question=What''s wrong with other networks?
+faq.whynotothers.answer=Absolutely nothing! I just find this tool better suited for the job. If you don't mind sending photos of notes or retelling exam questions to each and every one, every time, go ahead and continue with your normal life
+faq.whatsthefuss.question=So, what''s the big deal?
+faq.whatsthefuss.answer=StudyBuddy puts the accent on the group, instead to an individual. Every member can add new things or edit already existing ones, and it's all visible to the public. Think of it like some kind of a wiki.
+faq.howtostart.question=Okay, I have downloaded the app, what now?
+faq.howtostart.answer=First, register an account. Your email won''t be used for any spamming, and your password is completely secure, I promise. Next, get some friends to do the same. You can use it alone, but if you want to unleash its full potential, you''ll need some more people to create content. Create a group if your school/university/whatever you''re attending doesn''t have one, and add courses you attend. Voilá, you''re ready to start adding some notes and questions!
+faq.multiplegroups.question=Can I be in multiple groups?
+faq.multiplegroups.answer=Sure, why not? All groups, along with all their options and screens appear in the navigation drawer. Below them, there are options for searching groups and creating a new one.
+faq.specialsymbols.question=Can I use some other symbols except Latin?
+faq.specialsymbols.answer=Glad you asked! You can use any Unicode symbol you want (that includes pretty much anything you can think of). However, because we use Greek letters, super- and subscripts (powers and indices) more often than other symbols from where I come from, there are special shortcuts: if you want a Greek letter to appear instead of Latin, precede it with a backslash (\\), if you want a letter or a number superscripted, use the caret (^) and if you want a number subscripted type _ before it (subscripts are number-only feature). To insert backslash and caret normally, type them out twice (so \\\\ is actually one backslash). To insert underscore normally, you need to double it only if it comes before a number (e.g. type __1 to get _1), use it normally in all other cases. One more thing: double forward slashes (//) will be replaced with a fraction slash (⁄). Combine it with superscripts and subscripts to display fractions!
+faq.members.question=I see different roles in "View members" screen. In what do they differ?
+faq.members.answer=There are three roles group member can take, owner, mod and plain "member". Only owner can appoint mods and edit group details. Mod can change course details, rename lessons and remove items in such way they can''t be viewed by anyone anymore (unlike hiding, which is only on per-user basis). Everyone can edit exams, notes and questions, as well add new ones. Members can also add new courses.
+faq.public.question=What''s exactly public?
+faq.public.answer=All the courses, lessons, except those which are tied to an exam, notes and questions (except those who belong to exam lessons) and images associated with them. Exams and all notes and questions you put in them, as well as all audio recordings are visible only to group members.
+faq.filter.question=There are dozens of different courses in my group. I don''t want to see all this stuff, can I batch-hide them?
+faq.filter.answer=There is a filter icon on top of your screen, above the courses. Check it out!
+faq.crash.question=The app crashed/is reporting an error!
+faq.crash.answer=Oh, noes! Please <a href="mailto:luka.jovicic16@gmail.com">send me a mail</a> describing what exactly have you done before, as detailed as you can remember, and which error you got, and I''l look into it.
+faq.offline.question=It says I''m offline, what does it mean?
+faq.offline.answer=If you''re connected, treat it as a bug and see the previous question. If you''re really offline, it means you won't be able to add new items or edit already existing ones, and any changes you make, like hiding items, likely won''t persist (that is, will be reverted next time you connect)
+faq.refresh.question=I think I should see something, but it isn''t there!
+faq.refresh.answer=Swipe up (and by that, I mean downwards) to refresh. If it''s still missing, <a href="mailto:luka.jovicic16@gmail.com">contact me</a> and I''ll check it out.
+faq.medialoc.question=Where are the images and recordings stored?
+faq.medialoc.answer=Images are on your local storage, in DCIM/StudyGroup(/course name), and audio files are inside recordings/StudyGroup/course name. You can freely delete them; they will be redownloaded next time you access the notes. Hiding items will remove all media associated with them as well.
+faq.web.question=Can I somehow access the data on my computer?
+faq.web.answer=Not at the moment, but I feel you and I know how typing out everything is painful on small screens. A web platform is in the works, which would work regardless of the platform!
+faq.iphone.question=What about iPhone/iPad?
+faq.iphone.answer=Well, I don't have either, but you''re more than welcome to gift me one! No plans at the moment; after the web platform is done, they will be able to access it as well.
+faq.whoareyou.question=Who are you?
+faq.whoareyou.answer=
+
+login.form.email=Email
+login.form.password=Password
+login.button.login=Login
+login.error.invalidcreds=Invalid email or password
+login.error.invalidemail=Invalid email

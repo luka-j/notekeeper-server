@@ -1,0 +1,198 @@
+@import play.i18n.Messages
+
+@(lang: String)
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Notekeeper</title>
+        <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="@routes.Assets.versioned("stylesheets/materialize.min.css")"  media="screen,projection"/>
+        <link href="@routes.Assets.versioned("stylesheets/style.css")" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+    <body>
+        <nav class="white" role="navigation">
+            <div class="nav-wrapper container">
+                <a id="logo-container" href="#" class="brand-logo"><img src="@routes.Assets.versioned("images/logo.png")" id="logo-img" /></a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="/faq">FAQ</a></li>
+                    @if(lang.equals("en")) {
+                        <li><a href="/?lang=sr">SR</a></li>
+                    } else {
+                        <li><a href="/?lang=en">EN</a></li>
+                    }
+                </ul>
+
+                <ul id="nav-mobile" class="side-nav">
+                    <li><a href="/faq">FAQ</a></li>
+                    @if(lang.equals("en")) {
+                        <li><a href="/?lang=sr">SR</a></li>
+                    } else {
+                        <li><a href="/?lang=en">EN</a></li>
+                    }
+                </ul>
+                <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+            </div>
+        </nav>
+
+        <div id="index-banner" class="parallax-container">
+            <div class="section no-pad-bot">
+                <div class="container">
+                    <br><br>
+                    <h1 class="header center indigo-text">@Messages.get("index.title")</h1>
+                    <div class="row center">
+                        <h5 class="header col s12 light">@Messages.get("index.app.short_desc")</h5>
+                    </div>
+                    <div class="row center">
+                        <a href="#" id="download-button" class="btn-large waves-effect waves-light indigo lighten-1">@Messages.get("index.download")</a>
+                    </div>
+                    <br><br>
+
+                </div>
+            </div>
+            <div class="parallax"><img src="@routes.Assets.versioned("images/background1.png")" alt="Unsplashed background img 1"></div>
+        </div>
+
+        <div class="container">
+            <div class="section">
+
+                <div class="row">
+                    <div class="col s12 center">
+                        <h4>@Messages.get("index.app.motto")</h4>
+                        <p class="left-align light">@Messages.get("index.app.motto.desc.p1")</p>
+                        <p class="left-align light">@Messages.get("index.app.motto.desc.p2")</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="parallax-container valign-wrapper">
+            <div class="section no-pad-bot">
+                <div class="container">
+                    <div class="row center">
+                        <h5 class="header col s12 light">@Messages.get("index.motto2")</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="parallax"><img src="@routes.Assets.versioned("images/background2.jpg")" alt="Unsplashed background img 2"></div>
+        </div>
+
+        <div class="container">
+            <div class="section">
+
+                <div class="row">
+                    <div class="col s12 m4">
+                        <div class="icon-block">
+                            <h2 class="center deep-orange-text"><i class="material-icons">format_align_left</i></h2>
+                            <h5 class="center">@Messages.get("index.feature.questions.title")</h5>
+
+                            <p class="light">@Messages.get("index.feature.questions.text")</p>
+                        </div>
+                    </div>
+
+                    <div class="col s12 m4">
+                        <div class="icon-block">
+                            <h2 class="center deep-orange-text"><i class="material-icons">group</i></h2>
+                            <h5 class="center">@Messages.get("index.feature.groups.title")</h5>
+
+                            <p class="light">@Messages.get("index.feature.groups.text")</p>
+                        </div>
+                    </div>
+
+                    <div class="col s12 m4">
+                        <div class="icon-block">
+                            <h2 class="center deep-orange-text"><i class="material-icons">perm_media</i></h2>
+                            <h5 class="center">@Messages.get("index.feature.media.title")</h5>
+
+                            <p class="light">@Messages.get("index.feature.media.text")</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="container">
+            <div class="section">
+
+                    <!--   Icon Section   -->
+                <div class="row">
+                    <div class="col s12 m4">
+                        <div class="icon-block">
+                            <h2 class="center deep-orange-text"><i class="material-icons">signal_wifi_off</i></h2>
+                            <h5 class="center">@Messages.get("index.feature.offline.title")</h5>
+
+                            <p class="light">@Messages.get("index.feature.offline.text")</p>
+                        </div>
+                    </div>
+
+                    <div class="col s12 m4">
+                        <div class="icon-block">
+                            <h2 class="center deep-orange-text"><i class="material-icons">public</i></h2>
+                            <h5 class="center">@Messages.get("index.feature.public.title")</h5>
+
+                            <p class="light">@Messages.get("index.feature.public.text")</p>
+                        </div>
+                    </div>
+
+                    <div class="col s12 m4">
+                        <div class="icon-block">
+                            <h2 class="center deep-orange-text"><i class="material-icons">android</i></h2>
+                            <h5 class="center">@Messages.get("index.feature.android.title")</h5>
+
+                            <p class="light">@Html(Messages.get("index.feature.android.text"))</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <footer class="page-footer indigo">
+            <div class="container">
+                <div class="row">
+                    <div class="col l6 s12">
+                        <h5 class="white-text">@Messages.get("index.footer.title")</h5>
+                        <p class="grey-text text-lighten-4">@Html(Messages.get("index.footer.text"))</p>
+
+                    </div>
+                    <div class="col l3 s12">
+                        <h5 class="white-text">@Messages.get("index.footer.legal")</h5>
+                        <ul>
+                            <li><a class="white-text" href="/eula">EULA</a></li>
+                            <li><a class="white-text" href="/pp">Privacy policy</a></li>
+                        </ul>
+                    </div>
+                    <!--<div class="col l3 s12">
+                        <h5 class="white-text">Even more links</h5>
+                        <ul>
+                            <li><a class="white-text" href="#!">Link 1</a></li>
+                            <li><a class="white-text" href="#!">Link 2</a></li>
+                            <li><a class="white-text" href="#!">Link 3</a></li>
+                            <li><a class="white-text" href="#!">Link 4</a></li>
+                        </ul>
+                    </div>-->
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <div class="container">
+      Made with a great help of <a class="deep-orange-text text-lighten-2" href="http://materializecss.com">Materialize</a>. Copyright goes here.
+      </div>
+            </div>
+        </footer>
+
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="@routes.Assets.versioned("javascripts/materialize.min.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.versioned("javascripts/init.js")"></script>
+    </body>
+</html>
