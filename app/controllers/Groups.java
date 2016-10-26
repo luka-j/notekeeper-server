@@ -1,9 +1,6 @@
 package controllers;
 
-import models.Group;
-import models.GroupMember;
-import models.Invitation;
-import models.User;
+import models.*;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -11,6 +8,7 @@ import play.mvc.Result;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import static controllers.Restrict.*;
@@ -20,6 +18,7 @@ import static controllers.Restrict.*;
  */
 public class Groups extends Controller {
     static Form<Group> groupForm = Form.form(Group.class);
+    static Form<Announcement> announcementForm = Form.form(Announcement.class);
 
     public Result getGroup(long groupId) {
         return Restrict.READ_PRESERVE_GROUP.require(ctx(), groupId,
@@ -100,6 +99,26 @@ public class Groups extends Controller {
 
     public Result getUsers(long id) {
         return Restrict.READ_PRESERVE_GROUP.require(ctx(), id, (GroupMember member) -> ok(Json.toJson(member.group.members)).as("application/json"));
+    }
+
+    public Result getUnreadAnnouncements(long groupId) {
+        return Restrict.WRITE.require(ctx(), groupId, (GroupMember member) -> {
+            List<Announcement> anns = member.fetchUnreadAnnouncements();
+            if(anns.isEmpty()) return status(304);
+            else return ok(Json.toJson(anns));
+        });
+    }
+
+    public Result addAnnouncement(long groupId) {
+        Form<Announcement> filledForm = announcementForm.bindFromRequest();
+        if(filledForm.hasErrors()) return badRequest("Form has errors");
+        Announcement ann = filledForm.get();
+        Restrict access = OWNER;
+        return access.require(ctx(), groupId, (GroupMember member) -> {
+            long id = Announcement.create(ann, member.group, member.user);
+            access.log(member, "Announcements/add");
+            return created(String.valueOf(id));
+        });
     }
 
     public Result getWriteRequests(long id) {

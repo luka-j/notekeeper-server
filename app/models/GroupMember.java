@@ -35,6 +35,9 @@ public class GroupMember extends Model {
     @Lob
     public String filtering = ",";
 
+    public long lastFetchAnnouncements;
+    public static final int READ_ANNOUNCEMENTS_PRIOR_TO_JOIN_TIME = 2 * 24 * 60 * 60 * 1000; //2 days
+
     public GroupMember(User user, Group group, int permission) {
         this.user = user;
         this.group = group;
@@ -85,6 +88,15 @@ public class GroupMember extends Model {
         update();
     }
 
+    public List<Announcement> fetchUnreadAnnouncements() {
+        if(permission < PERM_WRITE) return new ArrayList<>();
+        List<Announcement> anns = Announcement.getAnnouncements(group, getFilteringYears(), lastFetchAnnouncements);
+        System.out.println("anns size: " + anns.size());
+        lastFetchAnnouncements = System.currentTimeMillis();
+        update();
+        return anns;
+    }
+
     public static Set<Integer> stringToSet(String str) {
         if(str == null) return new HashSet<>();
         StringTokenizer tokenizer = new StringTokenizer(str, ",", false);
@@ -97,5 +109,12 @@ public class GroupMember extends Model {
                 set.add(Integer.parseInt(next));
         }
         return set;
+    }
+
+    public static GroupMember create(User user, Group group, int permission) {
+        GroupMember m = new GroupMember(user, group, permission);
+        m.lastFetchAnnouncements = System.currentTimeMillis()-READ_ANNOUNCEMENTS_PRIOR_TO_JOIN_TIME;
+        m.save();
+        return m;
     }
 }

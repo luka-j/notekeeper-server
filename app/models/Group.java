@@ -36,6 +36,9 @@ public class Group extends com.avaje.ebean.Model {
     @JsonIgnore
     public int requiredPermission = GroupMember.PERM_READ_PUBLIC;
 
+    public static final int ALL_YEARS = -1;
+
+
     public String validate() {
         if(id != 0) return "Attempt to set id";
         if(hasImage) return "Attempt to set hasImage";
@@ -43,6 +46,7 @@ public class Group extends com.avaje.ebean.Model {
         if(!courseYears.equals(",")) return "Attempt to set courseYears";
         return null;
     }
+
 
     public static Group get(Long id, int permission) {
         Group g= finder.byId(id);
@@ -59,19 +63,17 @@ public class Group extends com.avaje.ebean.Model {
     }
 
     public static long create(Group group, User user) {
-        GroupMember newMember = new GroupMember(user, group, GroupMember.PERM_CREATOR);
+        GroupMember newMember = GroupMember.create(user, group, GroupMember.PERM_CREATOR);
         group.members.add(newMember);
         group.save();
         user.groups.add(newMember);
         user.update();
-        newMember.save();
         return group.id;
     }
 
     public static void invite(long groupId, User user, boolean isApproved) {
         Group g = get(groupId, GroupMember.PERM_WRITE);
-        GroupMember member = new GroupMember(user, g, isApproved?GroupMember.PERM_WRITE:GroupMember.PERM_INVITED);
-        member.save();
+        GroupMember member = GroupMember.create(user, g, isApproved?GroupMember.PERM_WRITE:GroupMember.PERM_INVITED);
         g.members.add(member);
         g.update();
     }
@@ -79,8 +81,7 @@ public class Group extends com.avaje.ebean.Model {
     public static boolean requestWrite(User user, long groupId) {
         Group group = finder.ref(groupId);
         if(user == null) return false;
-        GroupMember member = new GroupMember(user, group, GroupMember.PERM_REQUEST_WRITE);
-        member.save();
+        GroupMember member = GroupMember.create(user, group, GroupMember.PERM_REQUEST_WRITE);
         group.members.add(member);
         group.update();
         return true;
