@@ -91,7 +91,6 @@ public class GroupMember extends Model {
     public List<Announcement> fetchUnreadAnnouncements() {
         if(permission < PERM_WRITE) return new ArrayList<>();
         List<Announcement> anns = Announcement.getAnnouncements(group, getFilteringYears(), lastFetchAnnouncements);
-        System.out.println("anns size: " + anns.size());
         lastFetchAnnouncements = System.currentTimeMillis();
         update();
         return anns;
@@ -111,10 +110,9 @@ public class GroupMember extends Model {
         return set;
     }
 
-    public static GroupMember create(User user, Group group, int permission) {
+    public static GroupMember construct(User user, Group group, int permission) {
         GroupMember m = new GroupMember(user, group, permission);
         m.lastFetchAnnouncements = System.currentTimeMillis()-READ_ANNOUNCEMENTS_PRIOR_TO_JOIN_TIME;
-        m.save();
         return m;
     }
 }

@@ -37,6 +37,7 @@ PUT        /groups/:id/leave                             controllers.Users.leave
 DELETE     /groups/:id                                   controllers.Groups.removeGroup(id: Long)
 PUT        /groups/:id                                   controllers.Groups.updateGroup(id: Long)
 GET        /groups/:id/announcements                     controllers.Groups.getUnreadAnnouncements(id: Long)
+GET        /groups/:id/announcements/all                 controllers.Groups.getAllAnnouncements(id: Long)
 POST       /groups/:id/announcement                      controllers.Groups.addAnnouncement(id: Long)
 PUT        /groups/:id/image                             controllers.Groups.addImage(id: Long)
 GET        /groups/:id/image                             controllers.Groups.getImage(id: Long, size: Int ?= -1)

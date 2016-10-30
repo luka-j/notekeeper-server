@@ -118,8 +118,8 @@ public class MediaUtils {
     public static void removeImage(String path) throws IOException {
         if(path == null) throw new NullPointerException("Path is null");
         Path fullsize = new File(IMAGES_PATH, path + ".full").toPath();
-        Files.delete(fullsize);
-        for(int dimen : ALLOWED_SIZES) {
+        Files.deleteIfExists(fullsize);
+        for (int dimen : ALLOWED_SIZES) {
             Files.deleteIfExists(new File(IMAGES_PATH, path + "." + dimen).toPath());
         }
     }

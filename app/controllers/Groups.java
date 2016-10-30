@@ -109,6 +109,11 @@ public class Groups extends Controller {
         });
     }
 
+    public Result getAllAnnouncements(long groupId) {
+        return Restrict.WRITE.require(ctx(), groupId,
+                (GroupMember member) -> ok(Json.toJson(Announcement.getAllAnnouncements(groupId))));
+    }
+
     public Result addAnnouncement(long groupId) {
         Form<Announcement> filledForm = announcementForm.bindFromRequest();
         if(filledForm.hasErrors()) return badRequest("Form has errors");

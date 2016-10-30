@@ -21,7 +21,7 @@ public class Announcement extends Model {
     @JsonIgnore
     public long groupId;
     public long date;
-    @OneToOne
+    @ManyToOne
     public User creator;
     @Lob
     public String text;
@@ -81,5 +81,9 @@ public class Announcement extends Model {
                         }
                     return false;
                 }).collect(Collectors.toList());*/
+    }
+
+    public static List<Announcement> getAllAnnouncements(long groupId) {
+        return finder.where().eq("group_id", groupId).findList();
     }
 }

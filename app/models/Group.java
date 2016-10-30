@@ -63,27 +63,30 @@ public class Group extends com.avaje.ebean.Model {
     }
 
     public static long create(Group group, User user) {
-        GroupMember newMember = GroupMember.create(user, group, GroupMember.PERM_CREATOR);
+        GroupMember newMember = GroupMember.construct(user, group, GroupMember.PERM_CREATOR);
         group.members.add(newMember);
         group.save();
         user.groups.add(newMember);
         user.update();
+        newMember.save();
         return group.id;
     }
 
     public static void invite(long groupId, User user, boolean isApproved) {
         Group g = get(groupId, GroupMember.PERM_WRITE);
-        GroupMember member = GroupMember.create(user, g, isApproved?GroupMember.PERM_WRITE:GroupMember.PERM_INVITED);
+        GroupMember member = GroupMember.construct(user, g, isApproved?GroupMember.PERM_WRITE:GroupMember.PERM_INVITED);
         g.members.add(member);
         g.update();
+        member.save();
     }
 
     public static boolean requestWrite(User user, long groupId) {
         Group group = finder.ref(groupId);
         if(user == null) return false;
-        GroupMember member = GroupMember.create(user, group, GroupMember.PERM_REQUEST_WRITE);
+        GroupMember member = GroupMember.construct(user, group, GroupMember.PERM_REQUEST_WRITE);
         group.members.add(member);
         group.update();
+        member.save();
         return true;
     }
 
