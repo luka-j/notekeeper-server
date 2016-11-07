@@ -173,10 +173,10 @@ public class User extends Model {
 
     public static Result handleInsufficientPermissions(int permission) {
         switch (permission) {
-            case GroupMember.PERM_READ_PUBLIC: return Results.forbidden("Inappropriate permissions (read)");
+            case GroupMember.PERM_READ: return Results.forbidden("Inappropriate permissions (read)");
             case GroupMember.PERM_WRITE: return Results.forbidden("Inappropriate permissions (write)");
             case GroupMember.PERM_MODIFY: return Results.forbidden("Inappropriate permissions (modify)");
-            default: return null;
+            default: return Results.forbidden("forbidden (for unknown reasons, could be bug)");
         }
     }
 

@@ -39,7 +39,7 @@ public class Question extends Model implements EditableItem {
     public String answer;
     public boolean hasImage = false;
     @JsonIgnore
-    public int requiredPermission = GroupMember.PERM_READ_PUBLIC;
+    public int requiredPermission = GroupMember.PERM_READ;
     @Column(name = "order_col")
     public int order;
 

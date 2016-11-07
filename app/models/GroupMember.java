@@ -14,13 +14,13 @@ import java.util.*;
 public class GroupMember extends Model {
 
     public static final int PERM_ROOT = Integer.MAX_VALUE;
-    public static final int PERM_REQUEST_WRITE = 50;
+    public static final int PERM_REQUEST_WRITE = 60;
     public static final int PERM_INVITED = 300;
     public static final int PERM_WRITE = 1000;
     public static final int PERM_MODIFY = 3000;
     public static final int PERM_OWNER = 4500;
     public static final int PERM_CREATOR = 5000;
-    public static final int PERM_READ_PUBLIC = 0;
+    public static final int PERM_READ = 5;
 
     @Id
     @JsonIgnore
@@ -35,9 +35,18 @@ public class GroupMember extends Model {
     @Lob
     public String filtering = ",";
 
-    public long lastFetchAnnouncements;
+    public long joinDate = -1;
+    public long lastFetchAnnouncements = -1;
     public static final int READ_ANNOUNCEMENTS_PRIOR_TO_JOIN_TIME = 2 * 24 * 60 * 60 * 1000; //2 days
 
+    /**
+     * Outside this class, used for temporary "members" - only to satisfy function in {@link controllers.Restrict} if
+     * there's no member, i.e. doesn't represent true member that will be saved in the database. Doesn't initialize
+     * any other fields except the given ones.
+     * @param user User to which this member refers
+     * @param group Group to which this member refers
+     * @param permission permission this user has in this group
+     */
     public GroupMember(User user, Group group, int permission) {
         this.user = user;
         this.group = group;
@@ -110,9 +119,19 @@ public class GroupMember extends Model {
         return set;
     }
 
+    /**
+     * Uses {@link GroupMember#GroupMember(User, Group, int)} to initialize mandatory fields, then sets
+     * {@link #lastFetchAnnouncements} and {@link #joinDate} to appropriate times. Requires given User and Group to be
+     * in the database before saving this entry, so it doesn't {@link #save()} the model, but expects it to be done
+     * externally.
+     * @return Newly constructed GroupMember with all fields initialized to appropriate values
+     * @see GroupMember#GroupMember(User, Group, int)
+     */
     public static GroupMember construct(User user, Group group, int permission) {
         GroupMember m = new GroupMember(user, group, permission);
-        m.lastFetchAnnouncements = System.currentTimeMillis()-READ_ANNOUNCEMENTS_PRIOR_TO_JOIN_TIME;
+        long time = System.currentTimeMillis();
+        m.lastFetchAnnouncements = time-READ_ANNOUNCEMENTS_PRIOR_TO_JOIN_TIME;
+        m.joinDate = time;
         return m;
     }
 }

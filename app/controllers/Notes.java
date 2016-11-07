@@ -87,7 +87,9 @@ public class Notes extends Controller {
     }
 
     public Result getImage(long id, int size) {
-        return Restrict.READ.require(ctx(), -1, (GroupMember member) -> {
+        Note note = Note.get(id);
+        return Restrict.READ_PRESERVE_GROUP.require(ctx(), note.groupId, (GroupMember member) -> {
+            if(note.requiredPermission > member.permission) return ok();
             try {
                 File img = Note.getImage(id, size);
                 if(img!=null) {
@@ -150,7 +152,7 @@ public class Notes extends Controller {
 
     public Result hideNote(long noteId) {
         Note note = Note.get(noteId);
-        return Restrict.READ.require(ctx(), note.groupId, (GroupMember member) -> {
+        return Restrict.READ_IGNORE_GROUP.require(ctx(), note.groupId, (GroupMember member) -> {
             note.hideFor(member.user);
             return ok("Hidden");
         });

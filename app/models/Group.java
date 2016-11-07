@@ -34,7 +34,8 @@ public class Group extends com.avaje.ebean.Model {
     @Lob
     public String courseYears = ","; //wannabe @ElementCollection
     @JsonIgnore
-    public int requiredPermission = GroupMember.PERM_READ_PUBLIC;
+    public int requiredPermission = GroupMember.PERM_READ;
+    public boolean inviteOnly = false;
 
     public static final int ALL_YEARS = -1;
 
@@ -80,12 +81,12 @@ public class Group extends com.avaje.ebean.Model {
         member.save();
     }
 
-    public static boolean requestWrite(User user, long groupId) {
-        Group group = finder.ref(groupId);
+    public boolean requestWrite(User user) {
         if(user == null) return false;
-        GroupMember member = GroupMember.construct(user, group, GroupMember.PERM_REQUEST_WRITE);
-        group.members.add(member);
-        group.update();
+        if(inviteOnly) return false;
+        GroupMember member = GroupMember.construct(user, this, GroupMember.PERM_REQUEST_WRITE);
+        members.add(member);
+        update();
         member.save();
         return true;
     }
@@ -93,7 +94,7 @@ public class Group extends com.avaje.ebean.Model {
     public static boolean revokeWrite(long userId, long groupId) {
         GroupMember member = GroupMember.get(userId, groupId);
         if(member == null) return false;
-        member.permission = GroupMember.PERM_READ_PUBLIC;
+        member.permission = GroupMember.PERM_READ;
         member.update();
         Group group = finder.ref(groupId);
         group.members.remove(member);

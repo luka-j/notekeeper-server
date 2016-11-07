@@ -5,6 +5,7 @@ import models.GroupMember;
 import models.User;
 import play.mvc.Http;
 import play.mvc.Result;
+import play.mvc.Results;
 
 import java.util.function.Function;
 
@@ -14,13 +15,13 @@ import java.util.function.Function;
 public enum Restrict {
 
     @Deprecated
-    READ(GroupMember.PERM_READ_PUBLIC) {
+    READ_IGNORE_GROUP(GroupMember.PERM_READ) {
         @Override
         public Result require(Http.Context ctx, long groupId, Function<GroupMember, Result> action) {
             return super.require(ctx, IGNORE_GROUP, action);
         }
     },
-    READ_PRESERVE_GROUP(GroupMember.PERM_READ_PUBLIC),
+    READ_PRESERVE_GROUP(GroupMember.PERM_READ),
     WRITE(GroupMember.PERM_WRITE),
     MODIFY(GroupMember.PERM_MODIFY),
     OWNER(GroupMember.PERM_OWNER),
@@ -40,17 +41,25 @@ public enum Restrict {
             long userId = User.verifyToken(token);
 
             if(groupId == IGNORE_GROUP) {
-                return action.apply(new GroupMember(User.get(userId), null, GroupMember.PERM_READ_PUBLIC));
+                return action.apply(new GroupMember(User.get(userId), null, GroupMember.PERM_READ));
             } else {
                 GroupMember member = GroupMember.get(userId, groupId);
-                int permission = member == null ? GroupMember.PERM_READ_PUBLIC : member.permission;
+                Group group = Group.get(groupId, GroupMember.PERM_READ);
+                if(group == null) return Results.notFound();
+
+                int permission;
+                if(member == null) {
+                    if(group.inviteOnly) permission = GroupMember.PERM_READ;
+                    else permission = GroupMember.PERM_READ;
+                } else {
+                    permission = member.permission;
+                }
+
                 if(permission < requiredPermission) {
                     return User.handleInsufficientPermissions(permission);
                 } else {
                     if(member == null) {
-                        return action.apply(new GroupMember(User.get(userId),
-                                Group.get(groupId, GroupMember.PERM_READ_PUBLIC),
-                                GroupMember.PERM_READ_PUBLIC));
+                        return action.apply(new GroupMember(User.get(userId), group, permission));
                     } else {
                         return action.apply(member);
                     }

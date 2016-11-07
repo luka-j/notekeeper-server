@@ -90,7 +90,7 @@ public class Questions extends Controller {
         Question question = Question.get(id);
         Function<GroupMember, Result> result = (GroupMember member) -> {
             if(question.requiredPermission > member.permission)
-                return ok();
+                return ok(); //empty response: not letting user know it exists
             try {
                 File img = Question.getImage(id, size);
                 if(img!=null) {
@@ -127,7 +127,7 @@ public class Questions extends Controller {
 
     public Result hideQuestion(long questionId) {
         Question question = Question.get(questionId);
-        return Restrict.READ.require(ctx(), question.groupId, (GroupMember member) -> {
+        return Restrict.READ_IGNORE_GROUP.require(ctx(), question.groupId, (GroupMember member) -> {
             question.hideFor(member.user);
             return ok("Hidden");
         });

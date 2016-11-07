@@ -6,6 +6,7 @@ import javax.imageio.stream.ImageInputStream;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Iterator;
@@ -21,6 +22,11 @@ public class MediaUtils {
     public static final File AUDIO_PATH = new File("media/audio/");
 
     public static final int MAX_THUMBNAIL_SIZE = 500;
+
+    static {
+        if(!IMAGES_PATH.isDirectory()) IMAGES_PATH.mkdirs();
+        if(!AUDIO_PATH.isDirectory()) AUDIO_PATH.mkdirs();
+    }
 
     private static int matchSize(int scaleTo) {
         for(int size : ALLOWED_SIZES) {
@@ -56,12 +62,23 @@ public class MediaUtils {
             Files.copy(image.toPath(), dest.toPath());
             return;
         }
+        Process proc;
         if(height != -1)
-            Runtime.getRuntime().exec("convert " + image.getAbsolutePath() + " -thumbnail "
-                + String.valueOf(width) + "x" + String.valueOf(height) + " " + dest.getAbsolutePath()).waitFor();
+            proc=Runtime.getRuntime().exec("convert " + image.getAbsolutePath() + " -thumbnail "
+                + String.valueOf(width) + "x" + String.valueOf(height) + " " + dest.getAbsolutePath());
         else
-            Runtime.getRuntime().exec("convert " + image.getAbsolutePath() + " -thumbnail "
-                +String.valueOf(width) + "x" + String.valueOf(width) + "> " + dest.getAbsolutePath()).waitFor();
+            proc=Runtime.getRuntime().exec("convert " + image.getAbsolutePath() + " -thumbnail '"
+                +String.valueOf(width) + "x" + String.valueOf(width) + ">' " + dest.getAbsolutePath());
+        if(proc.waitFor() != 0) {
+            InputStream err = proc.getErrorStream();
+            System.err.println("Error while resizing image: ");
+            for(int i=0; i<err.available(); i++)
+                System.err.print((char)err.read());
+            System.err.println();
+        } else {
+            System.out.println("resized successfully");
+        }
+
     }
     /**
      * Updates the image denoted by path to the one given in src

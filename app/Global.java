@@ -25,7 +25,7 @@ public class Global {
             long diff = currTime - EXAM_DEPRECATION_PERIOD;
             Exam.finder.where().lt("date", diff).findEach(Exam::delete);
         };
-        Runnable cleanupGroupMembers = () -> GroupMember.finder.where().le("permission", GroupMember.PERM_READ_PUBLIC).findEach(GroupMember::delete);
+        Runnable cleanupGroupMembers = () -> GroupMember.finder.where().le("permission", GroupMember.PERM_READ).findEach(GroupMember::delete);
 
         system.scheduler().schedule(examDelay, frequency, removeExams, system.dispatcher());
         system.scheduler().schedule(groupMemberDelay, frequency, cleanupGroupMembers, system.dispatcher());

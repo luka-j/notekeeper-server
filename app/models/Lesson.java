@@ -31,7 +31,7 @@ public class Lesson extends Model {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "hidden_lessons")
     public Set<User> hiddenFor = new HashSet<>();
-    public int requiredPermission = GroupMember.PERM_READ_PUBLIC;
+    public int requiredPermission = GroupMember.PERM_READ;
 
     public static List<Lesson> getByCourse(long courseId, int permission) {
         return finder.where().and(Expr.eq("course_id", courseId), Expr.le("requiredPermission", permission)).findList();

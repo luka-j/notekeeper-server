@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static controllers.Restrict.READ;
+import static controllers.Restrict.READ_IGNORE_GROUP;
 import static controllers.Restrict.READ_PRESERVE_GROUP;
 
 /**
@@ -72,11 +72,14 @@ public class Users extends Controller {
     }
 
     public Result joinGroup(long groupId) {
-        Restrict access = READ;
-        return access.require(ctx(), -1, (GroupMember member) -> {
-            Group.requestWrite(member.user, groupId);
-            access.log(member, "Users/requestWrite, id: " + groupId);
-            return ok("Sent request to " + groupId);
+        Restrict access = READ_PRESERVE_GROUP;
+        return access.require(ctx(), groupId, (GroupMember member) -> {
+            if(member.group.requestWrite(member.user)) {
+                access.log(member, "Users/requestWrite, id: " + groupId);
+                return ok("Sent request to " + groupId);
+            } else {
+                return forbidden("Group doesn't allow join requests");
+            }
         });
     }
 
@@ -90,13 +93,13 @@ public class Users extends Controller {
     }
 
     public Result getGroups() {
-        return READ.require(ctx(), -1, (GroupMember member) ->
+        return READ_IGNORE_GROUP.require(ctx(), -1, (GroupMember member) ->
                 ok(Json.toJson(member.user.groups.stream().filter((GroupMember g) -> g.permission >= GroupMember.PERM_REQUEST_WRITE)
                 .collect(Collectors.toList()))));
     }
 
     public Result getMyDetails() {
-        return READ.require(ctx(), -1, (GroupMember member) -> {
+        return READ_IGNORE_GROUP.require(ctx(), -1, (GroupMember member) -> {
             User user = member.user;
             return ok(Json.newObject().put("id", user.id)
                     .put("username", user.username)
@@ -107,7 +110,7 @@ public class Users extends Controller {
     }
 
     public Result getImage(long id, int size) {
-        return READ.require(ctx(), -1, (GroupMember member) ->{
+        return READ_IGNORE_GROUP.require(ctx(), -1, (GroupMember member) ->{
             File img;
             try {
                 img = User.getImage(id, size);
@@ -124,7 +127,7 @@ public class Users extends Controller {
     }
 
     public Result setMyImage() {
-        return READ.require(ctx(), -1, (GroupMember member) -> {
+        return READ_IGNORE_GROUP.require(ctx(), -1, (GroupMember member) -> {
             File img = request().body().asRaw().asFile();
             try {
                 User.updateImage(member.user, img);
@@ -137,7 +140,7 @@ public class Users extends Controller {
     }
 
     public Result setMyProfile() {
-        return READ.require(ctx(), -1, (GroupMember member) -> {
+        return READ_IGNORE_GROUP.require(ctx(), -1, (GroupMember member) -> {
             Map<String, String[]> form = request().body().asFormUrlEncoded();
             if(!form.containsKey("username") || !form.containsKey("email")) return badRequest("Bad request");
             String username, email;
@@ -151,7 +154,7 @@ public class Users extends Controller {
     }
 
     public Result checkPassword(String password) {
-        return READ.require(ctx(), -1, (GroupMember member) -> {
+        return READ_IGNORE_GROUP.require(ctx(), -1, (GroupMember member) -> {
             if(BCrypt.checkpw(password, member.user.password))
                 return ok("ok");
             else
@@ -160,7 +163,7 @@ public class Users extends Controller {
     }
 
     public Result changePassword() {
-        return READ.require(ctx(), -1, (GroupMember member) -> {
+        return READ_IGNORE_GROUP.require(ctx(), -1, (GroupMember member) -> {
             Map<String, String[]> params = request().body().asFormUrlEncoded();
             String oldPass = params.get("old")[0], newPass = params.get("pwd")[0];
             if(BCrypt.checkpw(oldPass, member.user.password)) {

@@ -72,7 +72,7 @@ public class Groups extends Controller {
         Form<Group> filledForm = groupForm.bindFromRequest();
         if(filledForm.hasErrors()) return badRequest("Bad request");
         Group group = filledForm.get();
-        Restrict access = READ_PRESERVE_GROUP;
+        Restrict access = READ_IGNORE_GROUP;
         return access.require(ctx(), group.id, (GroupMember member) -> {
             long id = Group.create(group, member.user);
             access.log(member, "Groups/add");
@@ -81,10 +81,10 @@ public class Groups extends Controller {
     }
 
     public Result searchGroup(String name) {
-        Restrict access = READ;
+        Restrict access = READ_IGNORE_GROUP;
         return access.require(ctx(), -1, (GroupMember member) -> {
                     access.log(member, "Groups/search: " + name);
-                    return ok(Json.toJson(Group.search(name, GroupMember.PERM_READ_PUBLIC))).as("application/json");
+                    return ok(Json.toJson(Group.search(name, GroupMember.PERM_READ))).as("application/json");
                 });
     }
 
@@ -102,8 +102,8 @@ public class Groups extends Controller {
     }
 
     public Result getUnreadAnnouncements(long groupId) {
-        return Restrict.WRITE.require(ctx(), groupId, (GroupMember member) -> {
-            List<Announcement> anns = member.fetchUnreadAnnouncements();
+        return Restrict.READ_PRESERVE_GROUP.require(ctx(), groupId, (GroupMember member) -> { //allowing anyone to make this request
+            List<Announcement> anns = member.fetchUnreadAnnouncements(); //access restriction done in GroupMember
             if(anns.isEmpty()) return status(304);
             else return ok(Json.toJson(anns));
         });

@@ -52,7 +52,7 @@ public class Note extends Model implements EditableItem {
     @Lob
     public String edits = "";
     @JsonIgnore
-    public int requiredPermission = GroupMember.PERM_READ_PUBLIC;
+    public int requiredPermission = GroupMember.PERM_READ;
 
     public String validate() {
         if(id != 0) return "Attempt to set id";
