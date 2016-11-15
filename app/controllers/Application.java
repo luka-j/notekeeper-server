@@ -11,6 +11,8 @@ import java.io.File;
 
 public class Application extends Controller {
 
+    public static final int ITERATON = 10;
+
     public Result index(String lang) {
         if(lang != null)
             changeLang(lang);
@@ -42,5 +44,9 @@ public class Application extends Controller {
             Logging.flushWriters();
             return ok("flushed");
         });
+    }
+
+    public Result getIterationCode() {
+        return ok(String.valueOf(ITERATON));
     }
 }

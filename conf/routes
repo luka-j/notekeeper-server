@@ -8,6 +8,7 @@ GET        /faq                                           controllers.Applicatio
 GET        /login                                         controllers.Application.loginPage()
 GET        /eula                                          controllers.Application.showEula()
 GET        /pp                                            controllers.Application.showPrivacyPolicy()
+GET        /it                                            controllers.Application.getIterationCode()
 
 # Map static resources from the /public folder to the /assets URL path
 GET        /assets/*file                                 controllers.Assets.versioned(path="/public", file: Asset)
@@ -18,7 +19,7 @@ POST       /users/register                               controllers.Users.regis
 POST       /users/login                                  controllers.Users.login()
 POST       /users/:token/refresh                         controllers.Users.refreshToken(token: String)
 GET        /users/:id/get                                controllers.Users.getUser(id: Long)
-GET        /users/me                                     controllers.Users.getMyDetails
+GET        /users/me                                     controllers.Users.getMyDetails()
 GET        /users/:id/image                              controllers.Users.getImage(id: Long, size: Int ?= -1)
 PUT        /users/myImage                                controllers.Users.setMyImage()
 PUT        /users/myProfile                              controllers.Users.setMyProfile()
@@ -29,7 +30,7 @@ POST       /group/:id/requestWrite                       controllers.Users.joinG
 #Group- and group management- related stuff
 
 
-GET        /groups/                                      controllers.Users.getGroups
+GET        /groups/                                      controllers.Users.getGroups()
 GET        /groups/:id                                   controllers.Groups.getGroup(id: Long)
 POST       /groups/                                      controllers.Groups.addGroup()
 GET        /groups/:name/search                          controllers.Groups.searchGroup(name: String)
@@ -109,4 +110,4 @@ PUT        /exams/:id/hide                               controllers.Exams.hideE
 PUT        /group/:id/showAllExams                       controllers.Exams.showAllExams(id: Long)
 GET        /exams/:id/edits                              controllers.Exams.getEdits(id: Long)
 
-GET        /admin/flushLogs                              controllers.Application.flushLogs
+GET        /admin/flushLogs                              controllers.Application.flushLogs()

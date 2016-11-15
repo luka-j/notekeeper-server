@@ -13,6 +13,7 @@ libraryDependencies ++= Seq(
   "org.postgresql" % "postgresql" % "9.4-1206-jdbc42",
   "org.json" % "json" % "20090211",
   "org.apache.httpcomponents" % "httpmime" % "4.5.1",
+  "org.imgscalr" % "imgscalr-lib" % "4.2",
   cache,
   javaWs
 )
