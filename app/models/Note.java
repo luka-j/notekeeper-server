@@ -222,7 +222,7 @@ public class Note extends Model implements EditableItem {
     }
 
     public static File getAudio(long id) {
-        File audio = new File(MediaUtils.AUDIO_PATH, "notes/" + id);
+        File audio = new File(MediaUtils.AUDIO_PATH, "notes/" + id).getAbsoluteFile();
         if(audio.exists())
             return audio;
         else return null;

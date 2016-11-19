@@ -41,6 +41,11 @@ public class MediaUtils {
      * osvešta prostorije, za svaki slučaj. Ja trenutno nemam veze u SPC tako da mi druga opcija otpada, a zamolio bih
      * da ako iko bude imao tu mogućnost samo da postavi ovaj flag na true nakon obavljenog posla i ako se ispostavi da
      * Scalr ne radi posao zadovoljavajuće dobro.
+     *
+     * P.S. ko god je odlučio da je http://bugs.java.com/bugdatabase/view_bug.do;:YfiG?bug_id=4483097 "sasvim očekivano
+     * ponašanje" želim da mu se ruke, noge, ostali udovi, unutrašnji kao i spoljašnji organi osuše postepeno i bolno,
+     * a ništa manje muke ne bih poželeo ni onom ko je to tako implementirao u originalu. Ako nešto oko fajlova ne radi
+     * (exist() posebno), verovatno je do toga.
      */
     private static final boolean EXORCISM_PERFORMED = false;
 
@@ -104,7 +109,10 @@ public class MediaUtils {
             res = Scalr.resize(src, met, width, height);
         }
         src.flush();
-        ImageIO.write(res, "jpg", dest);
+        if(src.getColorModel().hasAlpha())
+            ImageIO.write(res, "png", dest);
+        else
+            ImageIO.write(res, "jpg", dest);
         res.flush();
     }
 
@@ -169,7 +177,7 @@ public class MediaUtils {
 
     public static void updateAudio(File src, File dest) throws IOException {
         if(src != null) {
-            Files.copy(src.toPath(), dest.toPath());
+            Files.copy(src.getAbsoluteFile().toPath(), dest.getAbsoluteFile().toPath());
         } else {
             if(!dest.delete())
                 throw new IOException("Failed to delete file " + dest.getAbsolutePath());
@@ -181,7 +189,7 @@ public class MediaUtils {
         Path fullsize = new File(IMAGES_PATH, path + ".full").getAbsoluteFile().toPath();
         Files.deleteIfExists(fullsize);
         for (int dimen : ALLOWED_SIZES) {
-            Files.deleteIfExists(new File(IMAGES_PATH, path + "." + dimen).toPath());
+            Files.deleteIfExists(new File(IMAGES_PATH, path + "." + dimen).getAbsoluteFile().toPath());
         }
     }
 }
