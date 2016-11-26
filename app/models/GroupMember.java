@@ -20,7 +20,7 @@ public class GroupMember extends Model {
     public static final int PERM_MODIFY = 3000;
     public static final int PERM_OWNER = 4500;
     public static final int PERM_CREATOR = 5000;
-    public static final int PERM_READ = 5;
+    public static final int PERM_READ = 20;
 
     @Id
     @JsonIgnore

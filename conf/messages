@@ -2,9 +2,9 @@ index.title=Notekeeper
 index.download=Download
 index.app.short_desc=A school-oriented note organizer
 index.app.motto=Last notes you''ll ever take
-index.app.motto.desc.p1=Open up Gallery on your phone and count how many images of your or someone else''s notebooks you have. I have dozens, and only because I delete them after they stop being useful. If you want to improve your notes, that''s the only way, right? Well, it used to be, until now. Why use some other social network to share your notes, when you can have one dedicated only to that?
-index.app.motto.desc.p2=[TODO insert name] provides you with that, and a couple of other things, like exam schedule. And data never stops being useful - you can hide stuff you''re not currently interested in, but all the items will remain for your younger schoolmates. Spend one last year taking notes, and after that only improve other''s work.
-index.motto2=For the students, by the students
+index.app.motto.desc.p1=Open up Gallery on your phone and count how many images of your or someone else''s notebooks you have. I have dozens, and only because I delete them after they stop being useful. For that reason I have created Notekeeper - an easy way to share all school-related material among your peers.
+index.app.motto.desc.p2=Apart from notes which are organized into courses and lessons, you can also share questions and exam schedule. And the best of all is that data never stops being useful - you can hide stuff you''re not currently interested in, but all the items will remain for your younger schoolmates. Spend one last year taking notes, and after that only improve others'' work.
+index.motto2=Students for students
 index.feature.questions.title=Notes and questions
 index.feature.questions.text=Along with notes, you can also store questions in order to refresh your and your peers'' memory or provide examples for the exam
 index.feature.groups.title=Made with groups in mind
@@ -12,13 +12,13 @@ index.feature.groups.text=Your school or college is represented by one large gro
 index.feature.media.title=Media support
 index.feature.media.text=You can attach an image to any note or question, or upload a note with an audio recording, if you prefer it to writing out everything. All images are stored on the server, and downloaded in full size (max. 2580px wide).
 index.feature.offline.title=Works offline
-index.feature.offline.text=All data is also stored on your device, so that you can browse everything while you''re not connected to the internet. Images are on your sdcard, under DCIM/StudyGroup, and recordings in recordings/StudyGroup, if you ever need to take a look at them
+index.feature.offline.text=All data is also stored on your device, so that you can browse everything while you''re not connected to the internet. Images are on your sdcard, under DCIM/Notekeeper, and recordings in recordings/Notekeeper, if you ever need to take a look at them
 index.feature.public.title=Public by default
 index.feature.public.text=All content, except items associated with exams and audio recordings, is accessible to everyone. Interested in what people from other schools do? Look them up! What do lessons look like on your desired college? No problem! (You just need to make them download the app)
 index.feature.android.title=Android app
 index.feature.android.text=At the moment, only way to access the network is through the Android app, but web platform is in the works (interested? If you''re a programmer, there''s a REST API you might find useful, <a href="mailto:luka.jovicic16@gmail.com">contact me</a>)
 index.footer.title=About me
-index.footer.text=I''m just one guy, a high school student, who made all this. You can <a href="https://plus.google.com/u/0/+LukaJovicic00" class="deep-orange-text text-lighten-1">find me on Google+</a> and a few other places. However, if you have a suggestion, complaint, question, or just want to tell a story, your best bet would be to <a href="mailto:luka.jovicic16@gmail.com" class="deep-orange-text text-lighten-1">send me an e-mail</a>.
+index.footer.text=A high school student with an idea who found a way to implement it (I started making this app as soon as I grasped basic knowledge of Android programming). You can <a href="https://plus.google.com/u/0/+LukaJovicic00" class="deep-orange-text text-lighten-1">find me on Google+</a> and a few other places. However, if you have a suggestion, complaint, question, or just want to tell a story, your best bet would be to <a href="mailto:luka.jovicic16@gmail.com" class="deep-orange-text text-lighten-1">send me an e-mail</a>.
 index.footer.legal=Legal
 
 faq.whynotothers.question=What''s wrong with other networks?

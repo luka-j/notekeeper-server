@@ -49,8 +49,7 @@ public enum Restrict {
 
                 int permission;
                 if(member == null) {
-                    if(group.inviteOnly) permission = GroupMember.PERM_READ;
-                    else permission = GroupMember.PERM_READ;
+                    permission = GroupMember.PERM_READ;
                 } else {
                     permission = member.permission;
                 }

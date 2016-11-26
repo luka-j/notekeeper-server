@@ -2,9 +2,9 @@ index.title=Notekeeper
 index.download=Preuzmi
 index.app.short_desc=Aplikacija za čuvanje i organizovanje beleški
 index.app.motto=Poslednje beleške koje ćeš morati da hvataš
-index.app.motto.desc.p1=Otvori galeriju na svom telefonu i prebroj koliko imaš fotografija tuđih svezaka. Ja ih imam na desetine, i to samo zato što ih izbrišem kada prestanu da budu korisne. Ako želiš da unaprediš svoje beleške, to je jedini način, zar ne? Pa, bio je, do sad. Zašto bi koristio/la neku drugu društvenu mrežu za deljenje svojih beleški, kada možeš imati jednu posveénu samo tome?
-index.app.motto.desc.p2=[TODO insert name] ti omogućava to, i još par drugih stvari, poput rasporeda kontrolnih zadataka i ispita. I podaci nikada ne prestaju da budu korisni - možeš sakriti stvari koje te trenutno ne interesuju, ali sve stavke će ostati tvojim mlađim školskim drugovima. To znači da treba da hvataš beleške još jednu, poslednju, godinu, a nakon toga samo poboljšavaš tuđi rad.
-index.motto2=Od učenika, za učenike
+index.app.motto.desc.p1=Otvori galeriju na svom telefonu i prebroj koliko imaš fotografija tuđih svezaka. Ja ih imam na desetine, i to samo zato što ih obrišem kada prestanu da budu korisne. Zbog toga sam napravio Notekeeper - lak način da podeliš sve materijale vezane za školu sa svojim vršnjacima.
+index.app.motto.desc.p2=Osim beležaka koje su organizovane po kursevima i lekcijama, takođe možeš da deliš i pitanja i raspored pismenih i usmenih provera. A najbolje od svega je što podaci nikada ne prestaju da budu korisni - možeš sakriti stvari koje te trenutno ne interesuju, ali sve stavke će ostati tvojim mlađim školskim drugovima. To znači da treba da hvataš beleške još jednu, poslednju, godinu, a nakon toga samo poboljšavaš tuđi rad.
+index.motto2=Učenici za učenike
 index.feature.questions.title=Pitanja i beleške
 index.feature.questions.text=Zajedno s beleškama, takođe možeš čuvati i pitanja kako bi osvežio/la svoje i pamćenje svojih vršnjaka ili dao/la primere mogućih pitanja za test
 index.feature.groups.title=Napravljeno s grupama na umu
@@ -17,8 +17,8 @@ index.feature.public.title=Sve je javno
 index.feature.public.text=Svom sadržaju, sem stvarima koje su povezane s ispitima i audio snimcima, može svako da pristupi. Zanima te šta rade ljudi u drugim školama? Potraži ih! Kako izgledaju lekcije na željenom fakultetu? Nema problema! (Samo treba da ih nateraš da preuzmu aplikaciju)
 index.feature.android.title=Android aplikacija
 index.feature.android.text=Trenutno jedini način da pristupiš aplikaciji je putem Android aplikacije, ali radim i na veb platformi (zainteresovan/a? Ako si programer, postoji REST API koji će ti možda biti zanimljiv, <a href="mailto:luka.jovicic16@gmail.com">kontaktiraj me</a>)
-index.footer.title=O menu
-index.footer.text=Ja sam samo običan tinejdžer, učenik srednje škole, i na ovo trošim svoje slobodno vreme. Možeš me <a href="https://plus.google.com/u/0/+LukaJovicic00" class="deep-orange-text text-lighten-1">naći na Google+-u</a> i na još par drugih mesta. Međutim, ako imaš predlog, žalbu, pitanje, ili samo želiš da ispričaš priču, najbolje bi bilo da mi <a href="mailto:luka.jovicic16@gmail.com" class="deep-orange-text text-lighten-1">pošalješ mail</a>.
+index.footer.title=O meni
+index.footer.text=Učenik srednje škole s idejom, koji je našao način da je implementira (započeo sam rad na ovoj aplikaciji čim sam naučio osnove programiranja u Androidu). Možeš me <a href="https://plus.google.com/u/0/+LukaJovicic00" class="deep-orange-text text-lighten-1">naći na Google+-u</a> i na još par drugih mesta. Međutim, ako imaš predlog, žalbu, pitanje, ili samo želiš da ispričaš priču, najbolje bi bilo da mi <a href="mailto:luka.jovicic16@gmail.com" class="deep-orange-text text-lighten-1">pošalješ mail</a>.
 
 faq.whynotothers.question=Šta nije u redu s drugim mrežama?
 faq.whynotothers.answer=Apsolutno ništa! Meni se samo čini da je ovo bolji alat za taj posao. Ako ti ne smeta slanje slika svojih beležaka ili prepričavanje pitanja s kontrolnog ili ispita svakome, svaki put, možeš slobodno da nastaviš
@@ -50,3 +50,8 @@ faq.iphone.question=A šta sa iPhone/iPad -a?
 faq.iphone.answer=Pa, ne posedujem nijedan, ali si više nego dobrodošao/la da mi kupiš neki! Trenutno nemam planova da pišem aplikaciju za njih; kada veb platforma bude gotova, oni će takođe moći da joj pristupe.
 faq.whoareyou.question=Ko si ti?
 faq.whoareyou.answer=
+login.form.email=E-mail
+login.form.password=Lozinka
+login.button.login=Prijavi se
+login.error.invalidcreds=Pogrešan e-mail ili lozinka
+login.error.invalidemail=Pogrešan e-mail
