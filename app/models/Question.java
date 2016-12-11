@@ -73,7 +73,7 @@ public class Question extends Model implements EditableItem {
     public static long create(Question question, User creator) {
         Lesson lesson = Lesson.incrementQuestion(question.courseId, question.lesson, question.requiredPermission);
         if(question.requiredPermission < lesson.requiredPermission)
-            question.requiredPermission = lesson.requiredPermission; //maybe a bit ugly, but works!
+            question.requiredPermission = lesson.requiredPermission;
         question.order = lesson.questionNo;
         Edit creation = new Edit(creator, Edit.ACTION_CREATE, System.currentTimeMillis());
         creation.save();
@@ -209,6 +209,8 @@ public class Question extends Model implements EditableItem {
         textEdit.save();
         edits = EditableItem.addEdit(textEdit.id, edits);
         if(!newQuestion.lesson.isEmpty() && !newQuestion.lesson.equals(this.lesson)) {
+            Lesson.incrementQuestion(courseId, newQuestion.lesson, requiredPermission);
+            Lesson.decrementQuestion(courseId, lesson);
             this.lesson = newQuestion.lesson;
             Edit lessonEdit = new Edit(editor, Edit.ACTION_CHANGE_LESSON, time);
             lessonEdit.save();
@@ -219,7 +221,7 @@ public class Question extends Model implements EditableItem {
 
     public List<Edit> editsAsList() {
         if(edits.isEmpty()) return new ArrayList<>(0);
-        return Arrays.asList(edits.split(",")).stream().map((String s) -> Edit.get(Long.parseLong(s))).collect(Collectors.toList());
+        return Arrays.stream(edits.split(",")).map((String s) -> Edit.get(Long.parseLong(s))).collect(Collectors.toList());
     }
 
     @Override

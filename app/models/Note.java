@@ -147,6 +147,8 @@ public class Note extends Model implements EditableItem {
         textEdit.save();
         edits = EditableItem.addEdit(textEdit.id, edits);
         if(!newNote.lesson.isEmpty() && !newNote.lesson.equals(this.lesson)) {
+            Lesson.incrementNote(courseId, newNote.lesson, requiredPermission);
+            Lesson.decrementNote(courseId, lesson);
             this.lesson = newNote.lesson;
             Edit lessonEdit = new Edit(editor, Edit.ACTION_CHANGE_LESSON, time);
             lessonEdit.save();

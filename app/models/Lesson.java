@@ -34,11 +34,11 @@ public class Lesson extends Model {
     public int requiredPermission = GroupMember.PERM_READ;
 
     public static List<Lesson> getByCourse(long courseId, int permission) {
-        return finder.where().and(Expr.eq("course_id", courseId), Expr.le("requiredPermission", permission)).findList();
+        return finder.where().and(Expr.eq("course_id", courseId), Expr.le("required_permission", permission)).findList();
     }
 
     public static void delete(long courseId, String name) {
-        finder.where().and(Expr.eq("courseId", courseId), Expr.eq("name", name)).findUnique().delete();
+        finder.where().and(Expr.eq("course_id", courseId), Expr.eq("name", name)).findUnique().delete();
     }
     public void delete() {
         hiddenFor.clear();
@@ -113,7 +113,7 @@ public class Lesson extends Model {
         Lesson l = finder.where().eq("course_id", courseId).eq("name", name).findUnique();
         if(l!=null && l.noteNo>0) {
             l.noteNo--;
-            l.update();
+            if(!deleteIfEmpty(l)) l.update();
         }
     }
 
@@ -121,8 +121,21 @@ public class Lesson extends Model {
         Lesson l = finder.where().eq("course_id", courseId).eq("name", name).findUnique();
         if(l!=null && l.questionNo>0) {
             l.questionNo--;
-            l.update();
+            if(!deleteIfEmpty(l)) l.update();
         }
+    }
+
+    /**
+     *
+     * @param l lesson to be potentially deleted
+     * @return true if the item has been deleted, false otherwise
+     */
+    private static boolean deleteIfEmpty(Lesson l) {
+        if(l.noteNo == 0 && l.questionNo == 0) {
+            l.delete();
+            return true;
+        }
+        return false;
     }
 
     /**
