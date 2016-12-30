@@ -1,5 +1,6 @@
 package controllers;
 
+import mails.Emails;
 import models.*;
 import play.data.Form;
 import play.libs.Json;
@@ -9,7 +10,6 @@ import play.mvc.Result;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import static controllers.Restrict.*;
 
@@ -17,6 +17,10 @@ import static controllers.Restrict.*;
  * Created by luka on 11.12.15..
  */
 public class Groups extends Controller {
+    public static final int MAX_EMAILS_BULK = 100;
+    public static final int INVITE_TIMEOUT = 3000;
+    public static final int BULK_EMAIL_TIMEOUT = 5 * 60 * 1000;
+
     static Form<Group> groupForm = Form.form(Group.class);
     static Form<Announcement> announcementForm = Form.form(Announcement.class);
 
@@ -185,27 +189,65 @@ public class Groups extends Controller {
         });
     }
 
-    public Result invite(long groupId) {
+    public Result approveInvitation(long groupId, String email) {
+        Restrict access = MODIFY;
+        return access.require(ctx(), groupId, (GroupMember member) -> {
+            Invitation inv = Invitation.get(email);
+            if(inv == null) return badRequest("There is no such invitation");
+            inv.approve();
+            access.log(member, "Groups/approveInvitation");
+            return ok("approved");
+        });
+    }
+
+    public Result invite(long groupId, String emails) {
         Restrict access = WRITE;
         return access.require(ctx(), groupId, (GroupMember member) -> {
-            Map<String, String[]> body = request().body().asFormUrlEncoded();
-            if(body == null || !body.containsKey("email")) return badRequest("Bad request");
-            String email = body.get("email")[0];
-            boolean isApproved;
-            isApproved = member.permission >= GroupMember.PERM_MODIFY;
-            if(User.finder.where().eq("email", email).findRowCount() == 0) {
-                Invitation.create(email, groupId, isApproved);
-                //try {
-                    //if(Emails.invite(member.user.username, member.group.name, email).getCode() >= 400)
-                        return internalServerError();
-                //} catch (SendGridException|JSONException e) {
-                //    internalServerError();
-                //}
+            if(member.user.canSendNextMailTime < System.currentTimeMillis()) return unauthorized("Too many emails!");
+            if(emails.contains(",")) {
+                bulkInvite(groupId, emails.split("\\s+,\\s+"), member);
             } else {
-                Group.invite(groupId, User.byEmail(email), isApproved);
+                if(sendInvite(groupId, emails, member)) {
+                    member.user.canSendNextMailTime = System.currentTimeMillis() + INVITE_TIMEOUT;
+                    member.user.update();
+                    return ok("invitation sent");
+                } else {
+                    return internalServerError("sending invitation failed");
+                }
             }
+
             access.log(member, "Groups/invite");
             return ok("Invited");
         });
+    }
+
+    private Result bulkInvite(long groupId, String[] emails, GroupMember member) {
+        if(emails.length > MAX_EMAILS_BULK) return badRequest("Too large bulk");
+        int success = 0;
+        for(String email : emails) {
+            if(email.trim().isEmpty()) { success++; continue; }
+            if(sendInvite(groupId, email, member)) success++;
+        }
+        if(success == 0) return internalServerError("email sending failed (all)");
+        member.user.canSendNextMailTime = System.currentTimeMillis() + BULK_EMAIL_TIMEOUT;
+        member.user.update();
+        if(success == emails.length) return ok("sent all successfully");
+        else return ok("sent " + success + "/" + emails.length);
+    }
+
+    private boolean sendInvite(long groupId, String email, GroupMember member) {
+        boolean isApproved;
+        isApproved = member.permission >= GroupMember.PERM_MODIFY;
+        if(User.finder.where().eq("email", email).findRowCount() == 0) {
+            Invitation.create(email, groupId, isApproved);
+            try {
+                Emails.invite(email, member.user.username, member.group.name);
+            } catch (IOException e) {
+                return false;
+            }
+        } else {
+            Group.invite(groupId, User.byEmail(email), isApproved);
+        }
+        return true;
     }
 }

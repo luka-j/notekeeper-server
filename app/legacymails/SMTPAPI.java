@@ -1,4 +1,4 @@
-package mails;
+package legacymails;
 
 import org.json.JSONArray;
 import org.json.JSONException;

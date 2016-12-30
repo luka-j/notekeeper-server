@@ -11,7 +11,7 @@ import java.io.File;
 
 public class Application extends Controller {
 
-    public static final int ITERATON = 10;
+    public static final int ITERATON = 11;
 
     public Result index(String lang) {
         if(lang != null)
@@ -27,12 +27,12 @@ public class Application extends Controller {
 
     public Result showEula() {
         response().setHeader("Content-Disposition", "inline");
-        return ok(new File("legal/eula")).as("text/plain;charset=utf-8");
+        return ok(new File("/home/luka/legal/eula")).as("text/plain;charset=utf-8");
     }
 
     public Result showPrivacyPolicy() {
         response().setHeader("Content-Disposition", "inline");
-        return ok(new File("legal/privacy")).as("text/plain;charset=utf-8");
+        return ok(new File("/home/luka/legal/privacy")).as("text/plain;charset=utf-8");
     }
 
     public Result loginPage() {
@@ -46,6 +46,10 @@ public class Application extends Controller {
         });
     }
 
+    /*public Result testEmail() {
+        Emails.testEmail();
+        return ok("sent");
+    }*/
     public Result getIterationCode() {
         return ok(String.valueOf(ITERATON));
     }

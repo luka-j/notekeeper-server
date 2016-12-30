@@ -1,4 +1,4 @@
-package mails;
+package legacymails;
 
 /**
  * Created by luka on 11.2.16..

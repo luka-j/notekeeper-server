@@ -29,9 +29,13 @@ public class Courses extends Controller {
         Restrict access = READ_PRESERVE_GROUP;
         return access.require(ctx(), groupId, (GroupMember member) -> {
             Set<Integer> filtering = member.getFilteringYears();
-            List<Course> courses = Course.getByGroup(groupId, member.permission);
-                    courses.stream()
-                    .filter((Course c) -> !c.hiddenFor.contains(member.user) && (filtering.isEmpty() || filtering.contains(c.year)))
+            List<Course> courses = Course.getByGroup(groupId, member.permission)
+                    .stream()
+                    .filter((Course c) -> {
+                        if(c.hiddenFor.contains(member.user)) return false;
+                        if(filtering.isEmpty()) return true;
+                        return filtering.contains(c.year);
+                    })
                     .collect(Collectors.toList());
             ObjectNode ret = Json.newObject().put("courseYears", member.group.courseYears)
                     .put("filtering", member.filtering);

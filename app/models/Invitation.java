@@ -49,10 +49,9 @@ public class Invitation extends Model {
         return inv;
     }
 
-    public static void approve(String email, boolean approve) { //todo approve invitations
-        Invitation inv = finder.where().eq("email", email).findUnique();
-        inv.approved = approve;
-        inv.update();
+    public void approve() {
+        approved = true;
+        update();
     }
 
     public static Invitation get(String email) {

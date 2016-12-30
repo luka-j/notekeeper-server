@@ -74,6 +74,8 @@ public class User extends Model {
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     public List<GroupMember> groups = new LinkedList<>();
+    @JsonIgnore
+    public long canSendNextMailTime;
 
     public static User get(long id) {
         return finder.ref(id);
@@ -85,6 +87,7 @@ public class User extends Model {
     public static JsonNode verifyTokenPayload(String token) throws TokenException.Invalid {
         if(token == null) throw new TokenException.Invalid();
         String[] parts = token.split("\\.");
+        if(parts.length != 3) throw new TokenException.Invalid();
         char[] signature = signToken(parts[0] + "." + parts[1]);
         if(signature == null) throw new NullPointerException("Hashing token failed; signature == null");
         if(!String.valueOf(signature).equals(parts[2]))
@@ -151,16 +154,6 @@ public class User extends Model {
         if(user == null) return null;
         if(BCrypt.checkpw(password, user.password)) {
             return user.generateToken();
-        }
-        return null;
-    }
-
-    public GroupMember getGroupMember(long group) {
-        if(group == -1) return null;
-        for(GroupMember member : groups) {
-            if(member.group.id == group) {
-                return member;
-            }
         }
         return null;
     }

@@ -9,6 +9,7 @@ GET        /login                                         controllers.Applicatio
 GET        /eula                                          controllers.Application.showEula()
 GET        /pp                                            controllers.Application.showPrivacyPolicy()
 GET        /it                                            controllers.Application.getIterationCode()
+GET        /testmail                                      controllers.Application.testEmail()
 
 # Map static resources from the /public folder to the /assets URL path
 GET        /assets/*file                                 controllers.Assets.versioned(path="/public", file: Asset)
@@ -45,7 +46,7 @@ GET        /groups/:id/image                             controllers.Groups.getI
 GET        /groups/:id/members                           controllers.Groups.getUsers(id: Long)
 GET        /groups/:id/requests                          controllers.Groups.getWriteRequests(id: Long)
 
-PUT        /groups/:groupId/invite                       controllers.Groups.invite(groupId: Long)
+PUT        /groups/:groupId/invite                       controllers.Groups.invite(groupId: Long, email: String)
 PUT        /groups/:groupId/grantWrite/:user             controllers.Groups.grantWriteAccess(user: Long, groupId: Long)
 PUT        /groups/:groupId/grantModify/:user            controllers.Groups.grantModifyAccess(user: Long, groupId: Long)
 PUT        /groups/:groupId/grantOwner/:user             controllers.Groups.grantOwner(user: Long, groupId: Long)

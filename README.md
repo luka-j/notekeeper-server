@@ -23,6 +23,7 @@ Pisano u IDEA-i
 ## TODO
 * Mejlovi
 * testing/bugfixing
+* limit group size (members+invitations) to something sensible (4k?)
 * ETag/last-modified caching
 * static assets caching (Assets.at)
 * //todo komentari u kodu
