@@ -110,7 +110,7 @@ public class Questions extends Controller {
         Question question = Question.get(id);
         Restrict access = MODIFY;
         return access.require(ctx(), question.groupId, (GroupMember member) -> {
-            question.delete();
+            question.remove(member.user);
             access.log(member, "Questions/remove, id: " + id);
             return ok("Gone");
         });

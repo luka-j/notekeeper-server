@@ -10,8 +10,10 @@ import java.io.IOException;
  */
 public class Emails {
 
+    public static final int MAILS_PER_WEEK = 110;
+
     public static void invite(String address, String inviterName, String groupName) throws IOException {
-        Email from = new Email("invite@notekeeper.cf", "Notekeeper invitation");
+        Email from = new Email("invite@notekeep.me", "Notekeeper invitation");
         String subject = "";
         Email to = new Email(address);
         Content content = new Content("text/html", " ");

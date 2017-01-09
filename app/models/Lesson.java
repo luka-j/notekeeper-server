@@ -23,7 +23,8 @@ public class Lesson extends Model {
     public long id;
     public long courseId;
     @Constraints.Required
-    @Column(columnDefinition = "VARCHAR(127)")
+    @Constraints.MaxLength(255)
+    @Column(columnDefinition = "VARCHAR(255)")
     public String name;
     public int noteNo;
     public int questionNo;
@@ -32,13 +33,15 @@ public class Lesson extends Model {
     @JoinTable(name = "hidden_lessons")
     public Set<User> hiddenFor = new HashSet<>();
     public int requiredPermission = GroupMember.PERM_READ;
+    @JsonIgnore
+    public long deletedAt;
 
     public static List<Lesson> getByCourse(long courseId, int permission) {
         return finder.where().and(Expr.eq("course_id", courseId), Expr.le("required_permission", permission)).findList();
     }
 
-    public static void delete(long courseId, String name) {
-        finder.where().and(Expr.eq("course_id", courseId), Expr.eq("name", name)).findUnique().delete();
+    public static void remove(long courseId, String name, User user) {
+        finder.where().and(Expr.eq("course_id", courseId), Expr.eq("name", name)).findUnique().remove(user);
     }
     public void delete() {
         hiddenFor.clear();
@@ -46,9 +49,20 @@ public class Lesson extends Model {
         Note.deleteAll(courseId, name);
         Question.deleteAll(courseId, name);
     }
+    public void remove(User user) {
+        requiredPermission = GroupMember.PERM_READ_DELETED;
+        deletedAt = System.currentTimeMillis();
+        Note.removeAll(courseId, name, user);
+        Question.removeAll(courseId, name, user);
+        update();
+    }
 
     public static void deleteAll(long courseId) {
         finder.where().eq("courseId", courseId).findEach((Lesson::delete));
+    }
+
+    public static void removeAll(long courseId, User user) {
+        finder.where().eq("courseId", courseId).findEach((lesson) -> lesson.remove(user));
     }
 
     public static void renameLesson(long courseId, String oldName, String newName) {

@@ -20,8 +20,10 @@ import java.util.stream.Collectors;
 @Table(name = "groups")
 public class Group extends com.avaje.ebean.Model {
     @Constraints.Required
+    @Constraints.MaxLength(255)
     @Column(columnDefinition = "VARCHAR(255)")
     public String name;
+    @Constraints.MaxLength(255)
     @Column(columnDefinition = "VARCHAR(255)")
     public String place;
     @Id

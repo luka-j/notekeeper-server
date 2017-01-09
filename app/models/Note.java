@@ -53,6 +53,8 @@ public class Note extends Model implements EditableItem {
     public String edits = "";
     @JsonIgnore
     public int requiredPermission = GroupMember.PERM_READ;
+    @JsonIgnore
+    public long deletedAt;
 
     public String validate() {
         if(id != 0) return "Attempt to set id";
@@ -129,12 +131,20 @@ public class Note extends Model implements EditableItem {
         }
     }
 
-    public static void deleteAll(long courseId) {
-        finder.where().eq("courseId", courseId).findEach(Model::delete);
+    public void remove(User user) {
+        requiredPermission = GroupMember.PERM_READ_DELETED;
+        deletedAt = System.currentTimeMillis();
+        Edit deleted = new Edit(user, Edit.ACTION_REMOVE, deletedAt);
+        deleted.save();
+        edits = EditableItem.addEdit(deleted.id, edits);
+        update();
     }
 
     public static void deleteAll(long courseId, String lesson) {
-        finder.where().and(Expr.eq("courseId", courseId), Expr.eq("lesson", lesson)).findEach(Model::delete);
+        finder.where().and(Expr.eq("courseId", courseId), Expr.eq("lesson", lesson)).findEach(Note::delete);
+    }
+    public static void removeAll(long courseId, String lesson, User user) {
+        finder.where().and(Expr.eq("courseId", courseId), Expr.eq("lesson", lesson)).findEach((note) -> note.remove(user));
     }
 
     public void edit(User editor, EditableItem newItem) {

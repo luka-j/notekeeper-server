@@ -144,7 +144,7 @@ public class Notes extends Controller {
         Note note = Note.get(id);
         Restrict access = MODIFY;
         return Restrict.MODIFY.require(ctx(), note.groupId, (GroupMember member) -> {
-            note.delete();
+            note.remove(member.user);
             access.log(member, "Notes/remove, id: " + id);
             return ok("Gone");
         });

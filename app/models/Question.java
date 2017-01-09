@@ -42,6 +42,8 @@ public class Question extends Model implements EditableItem {
     public int requiredPermission = GroupMember.PERM_READ;
     @Column(name = "order_col")
     public int order;
+    @JsonIgnore
+    public long deletedAt;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "hidden_questions")
@@ -123,12 +125,20 @@ public class Question extends Model implements EditableItem {
             }
         }
     }
-    public static void deleteAll(long courseId) {
-        finder.where().eq("courseId", courseId).findEach(Model::delete);
+    public void remove(User user) {
+        requiredPermission = GroupMember.PERM_READ_DELETED;
+        deletedAt = System.currentTimeMillis();
+        Edit deleted = new Edit(user, Edit.ACTION_REMOVE, deletedAt);
+        deleted.save();
+        edits = EditableItem.addEdit(deleted.id, edits);
+        update();
     }
 
     public static void deleteAll(long courseId, String lesson) {
-        finder.where().and(Expr.eq("courseId", courseId), Expr.eq("lesson", lesson)).findEach(Model::delete);
+        finder.where().and(Expr.eq("courseId", courseId), Expr.eq("lesson", lesson)).findEach(Question::delete);
+    }
+    public static void removeAll(long courseId, String lesson, User user) {
+        finder.where().and(Expr.eq("courseId", courseId), Expr.eq("lesson", lesson)).findEach((q) -> q.remove(user));
     }
 
     @Override

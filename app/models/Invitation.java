@@ -25,6 +25,8 @@ public class Invitation extends Model {
     public String email;
     public String groups = ",";
     public boolean approved;
+    @JsonIgnore
+    public boolean alreadyExists; //set to true when creating same invitation multiple times in #create
 
     public static final Finder<Long, Invitation> finder = new Finder<>(Invitation.class);
 
@@ -38,13 +40,15 @@ public class Invitation extends Model {
         Invitation inv;
         if(finder.where().eq("email", email).findRowCount() == 0) {
             inv = new Invitation(email, groupId, isApproved);
+            inv.alreadyExists = false;
             inv.save();
         } else {
             inv = finder.where().eq("email", email).findUnique();
+            inv.alreadyExists = true;
             if(!inv.groups.contains("," + groupId + ",")) {
                 inv.groups = inv.groups.concat(groupId + ",");
-                inv.update();
             }
+            inv.update();
         }
         return inv;
     }

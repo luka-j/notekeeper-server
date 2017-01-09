@@ -123,7 +123,7 @@ public class Courses extends Controller {
         final Course course = Course.get(id);
         Restrict access = MODIFY;
         return access.require(ctx(), course.groupId, (GroupMember member) -> {
-            course.delete();
+            course.remove(member.user);
             access.log(member, "Courses/remove, id: " + id);
             return ok("Removed");
         });
@@ -133,7 +133,7 @@ public class Courses extends Controller {
         final Course course = Course.get(id);
         Restrict access = MODIFY;
         return access.require(ctx(), course.groupId, (GroupMember member) -> {
-            Lesson.delete(id, name);
+            Lesson.remove(id, name, member.user);
             access.log(member, "Lessons/remove, course: " + id + ", name: " + name);
             return ok("Removed");
         });

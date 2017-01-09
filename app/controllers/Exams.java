@@ -72,7 +72,7 @@ public class Exams extends Controller {
         Exam exam = Exam.get(id);
         Restrict access = MODIFY;
         return access.require(ctx(), exam.groupId, (GroupMember member) -> {
-            exam.delete();
+            exam.remove(member.user);
             access.log(member, "Exams/remove, id: " + id);
             return ok("Gone");
         });

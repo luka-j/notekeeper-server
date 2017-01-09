@@ -26,8 +26,10 @@ public class Course extends Model {
     @Constraints.Required
     public long groupId;
     @Constraints.Required
+    @Constraints.MaxLength(127)
     @Column(columnDefinition = "VARCHAR(127)")
     public String subject;
+    @Constraints.MaxLength(127)
     @Column(columnDefinition = "VARCHAR(127)")
     public String teacher;
     public Integer year;
@@ -38,6 +40,8 @@ public class Course extends Model {
     public Set<User> hiddenFor = new HashSet<>();
     @JsonIgnore
     public int requiredPermission = GroupMember.PERM_READ;
+    @JsonIgnore
+    public long deletedAt = 0;
 
     public String validate() {
         if(id != 0) return "Attempt to set id";
@@ -78,6 +82,17 @@ public class Course extends Model {
         }
         Lesson.deleteAll(id);
         Exam.deleteAll(id);
+    }
+
+    /**
+     * Marks this as "deleted" (unlike {@link #delete()} this doesn't remove this from the db)
+     */
+    public void remove(User user) {
+        requiredPermission = GroupMember.PERM_READ_DELETED;
+        deletedAt = System.currentTimeMillis();
+        Lesson.removeAll(id, user);
+        Exam.removeAll(id, user);
+        update();
     }
 
     public static void update(Course c, Course newCourse) {

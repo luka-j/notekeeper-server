@@ -33,6 +33,7 @@ public class Users extends Controller {
                 String token = User.login(user.email, password);
                 Invitation inv = Invitation.get(user.email);
                 if(inv != null) {
+                    user.verifiedEmail();
                     for(Long id : inv.getGroupIds()) {
                         Group.invite(id, user, inv.approved);
                     }

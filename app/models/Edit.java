@@ -25,6 +25,7 @@ public class Edit extends Model {
     public static final int ACTION_REMOVE_AUDIO = 9;
     public static final int ACTION_REPLACE_AUDIO = 10;
     public static final int ACTION_CREATE = 11;
+    public static final int ACTION_REMOVE = 12;
 
 
     public static Finder<Long, Edit> finder = new Finder<>(Edit.class);

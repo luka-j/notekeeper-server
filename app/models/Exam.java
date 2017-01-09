@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  */
 @Entity
 @Table(name = "exams")
-public class Exam extends Model implements EditableItem{
+public class Exam extends Model implements EditableItem {
     private static final long ITEM_MASK = 5L << 29; //101000...0000
 
     public static Finder<Long, Exam> finder = new Finder<>(Exam.class);
@@ -26,13 +26,18 @@ public class Exam extends Model implements EditableItem{
     @Constraints.Required
     public long courseId;
     @Constraints.Required
-    @Column(columnDefinition = "VARCHAR(255)")
+    @Constraints.MaxLength(192)
+    @Column(columnDefinition = "VARCHAR(192)")
     public String lesson;
-    @Column(columnDefinition = "VARCHAR(63)")
+    @Constraints.MaxLength(32)
+    @Column(columnDefinition = "VARCHAR(32)")
     public String klass;
-    @Column(columnDefinition = "VARCHAR(127)")
+    @Constraints.MaxLength(64)
+    @Column(columnDefinition = "VARCHAR(64)")
     public String type;
     public Long date;
+    @JsonIgnore
+    public long deletedAt;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "hidden_exams")
@@ -60,18 +65,26 @@ public class Exam extends Model implements EditableItem{
     }
 
     public static long create(Exam exam, User creator) {
-        exam.save();
         Edit creation = new Edit(creator, Edit.ACTION_CREATE, System.currentTimeMillis());
         creation.save();
         exam.edits = EditableItem.addEdit(creation.id, exam.edits);
+        exam.save();
         return exam.id;
     }
 
-    public static void delete(Long id) {
-        finder.ref(id).delete();
-    }
     public static void deleteAll(long courseId) {
-        finder.where().eq("courseId", courseId).findEach(Model::delete);
+        finder.where().eq("courseId", courseId).findEach(Exam::delete);
+    }
+    public static void removeAll(long courseId, User user) {
+        finder.where().eq("courseId", courseId).findEach((e) -> e.remove(user));
+    }
+    public void remove(User byUser) {
+        requiredPermission = GroupMember.PERM_READ_DELETED;
+        deletedAt = System.currentTimeMillis();
+        Edit deleted = new Edit(byUser, Edit.ACTION_REMOVE, deletedAt);
+        deleted.save();
+        edits = EditableItem.addEdit(deleted.id, edits);
+        update();
     }
 
     public String toString() {

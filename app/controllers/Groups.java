@@ -18,8 +18,6 @@ import static controllers.Restrict.*;
  */
 public class Groups extends Controller {
     public static final int MAX_EMAILS_BULK = 100;
-    public static final int INVITE_TIMEOUT = 3000;
-    public static final int BULK_EMAIL_TIMEOUT = 5 * 60 * 1000;
 
     static Form<Group> groupForm = Form.form(Group.class);
     static Form<Announcement> announcementForm = Form.form(Announcement.class);
@@ -74,7 +72,7 @@ public class Groups extends Controller {
 
     public Result addGroup() {
         Form<Group> filledForm = groupForm.bindFromRequest();
-        if(filledForm.hasErrors()) return badRequest("Bad request");
+        if(filledForm.hasErrors()) return badRequest("Bad request, " + filledForm.errorsAsJson());
         Group group = filledForm.get();
         Restrict access = READ_IGNORE_GROUP;
         return access.require(ctx(), group.id, (GroupMember member) -> {
@@ -200,24 +198,25 @@ public class Groups extends Controller {
         });
     }
 
-    public Result invite(long groupId, String emails) {
+    public Result invite(long groupId) {
         Restrict access = WRITE;
         return access.require(ctx(), groupId, (GroupMember member) -> {
-            if(member.user.canSendNextMailTime < System.currentTimeMillis()) return unauthorized("Too many emails!");
+            String emails = ctx().request().body().asFormUrlEncoded().get("email")[0];
+            if(emails == null) return badRequest("no email specified");
+            if(member.user.canSendMail()) return forbidden("Too many emails!");
             if(emails.contains(",")) {
-                bulkInvite(groupId, emails.split("\\s+,\\s+"), member);
+                String[] emailArray = emails.split("\\s+,\\s+");
+                access.log(member, "Groups/bulkinvite" + emailArray.length);
+                return bulkInvite(groupId, emailArray, member);
             } else {
+                access.log(member, "Groups/invite");
                 if(sendInvite(groupId, emails, member)) {
-                    member.user.canSendNextMailTime = System.currentTimeMillis() + INVITE_TIMEOUT;
-                    member.user.update();
+                    member.user.sentMail();
                     return ok("invitation sent");
                 } else {
                     return internalServerError("sending invitation failed");
                 }
             }
-
-            access.log(member, "Groups/invite");
-            return ok("Invited");
         });
     }
 
@@ -229,7 +228,7 @@ public class Groups extends Controller {
             if(sendInvite(groupId, email, member)) success++;
         }
         if(success == 0) return internalServerError("email sending failed (all)");
-        member.user.canSendNextMailTime = System.currentTimeMillis() + BULK_EMAIL_TIMEOUT;
+        member.user.sentMails(success);
         member.user.update();
         if(success == emails.length) return ok("sent all successfully");
         else return ok("sent " + success + "/" + emails.length);
@@ -239,11 +238,13 @@ public class Groups extends Controller {
         boolean isApproved;
         isApproved = member.permission >= GroupMember.PERM_MODIFY;
         if(User.finder.where().eq("email", email).findRowCount() == 0) {
-            Invitation.create(email, groupId, isApproved);
-            try {
-                Emails.invite(email, member.user.username, member.group.name);
-            } catch (IOException e) {
-                return false;
+            Invitation inv = Invitation.create(email, groupId, isApproved);
+            if(!inv.alreadyExists) {
+                try {
+                    Emails.invite(email, member.user.username, member.group.name);
+                } catch (IOException e) {
+                    return false;
+                }
             }
         } else {
             Group.invite(groupId, User.byEmail(email), isApproved);

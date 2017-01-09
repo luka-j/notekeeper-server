@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Charsets;
 import com.google.common.io.BaseEncoding;
 import controllers.TokenException;
+import mails.Emails;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 import org.mindrot.jbcrypt.BCrypt;
@@ -33,6 +34,7 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class User extends Model {
+
     protected static final long RESERVED_BITS = 7L << 61;
     private static final String JWT_HEADER = "{\n" +
             "  \"alg\": \"HS256\",\n" +
@@ -60,14 +62,18 @@ public class User extends Model {
     public long id;
     @Constraints.Required
     @Constraints.Email
+    @Constraints.MaxLength(255)
     @JsonIgnore
     @Column(unique = true)
     public String email;
     @Constraints.Required
-    @Column(columnDefinition = "VARCHAR(255)")
+    @Constraints.MaxLength(256)
+    @Column(columnDefinition = "VARCHAR(256)")
     public String username;
     @JsonIgnore
     @Constraints.Required
+    @Constraints.MaxLength(512)
+    @Constraints.MinLength(6)
     @Column(columnDefinition = "VARCHAR(512)")
     public String password;
     public boolean hasImage = false;
@@ -75,7 +81,20 @@ public class User extends Model {
     @OneToMany(mappedBy = "user")
     public List<GroupMember> groups = new LinkedList<>();
     @JsonIgnore
-    public long canSendNextMailTime;
+    public int invitesSent;
+    @JsonIgnore
+    public long lastSeen;
+    @JsonIgnore
+    public long registerDate;
+    @JsonIgnore
+    public boolean verified;
+
+    public String validate() {
+        if(id != 0) return "Attempt to set id";
+        if(!groups.isEmpty()) return "Attempt to set groups";
+        if(invitesSent < 0) return "Attempt to set invitesSent <0";
+        return null;
+    }
 
     public static User get(long id) {
         return finder.ref(id);
@@ -119,8 +138,14 @@ public class User extends Model {
         }
         String plain = user.password;
         user.password = BCrypt.hashpw(user.password, BCrypt.gensalt());
+        user.registerDate = System.currentTimeMillis();
         user.save();
         return plain;
+    }
+
+    public void verifiedEmail() {
+        verified = true;
+        update();
     }
 
     private static char[] signToken(String token) {
@@ -181,6 +206,25 @@ public class User extends Model {
 
     public void changePassword(String newPassword) {
         password = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+        update();
+    }
+
+    public void sentMails(int numberOfMails) {
+        invitesSent += numberOfMails;
+        update();
+    }
+    public void sentMail() {
+        sentMails(1);
+    }
+    public boolean canSendMail() {
+        return invitesSent >= Emails.MAILS_PER_WEEK;
+    }
+    public void resetMailCounter() {
+        invitesSent =0;
+        update();
+    }
+    public void seen() {
+        lastSeen = System.currentTimeMillis();
         update();
     }
 

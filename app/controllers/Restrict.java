@@ -35,10 +35,19 @@ public enum Restrict {
     }
 
     public Result require(Http.Context ctx, long groupId, Function<GroupMember, Result> action) {
-        String[] auth = ctx.request().headers().get("Authorization");
-        String token = auth == null ? null : auth[0];
+        String token;
+        if(ctx.request().hasHeader("Authorization")) {
+            String auth = ctx.request().getHeader("Authorization");
+            if (auth == null) token = null;
+            else if(!auth.contains(" ")) token = auth;
+            else if(auth.startsWith("Bearer ")) token = auth.split("\\s+")[1];
+            else token = null;
+        } else {
+            token = null;
+        }
         try {
             long userId = User.verifyToken(token);
+            User.get(userId).seen();
 
             if(groupId == IGNORE_GROUP) {
                 return action.apply(new GroupMember(User.get(userId), null, GroupMember.PERM_READ));
