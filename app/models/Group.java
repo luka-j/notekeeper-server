@@ -120,7 +120,7 @@ public class Group extends com.avaje.ebean.Model {
         GroupMember updated = GroupMember.get(userId, group.id);
         if(updated == null) return false;
         updated.permission = permission;
-        boolean ok = !group.members.add(updated);
+        //boolean ok = !group.members.add(updated);
         //if(ok) {
             updated.update();
             return true;

@@ -13,7 +13,9 @@ import play.mvc.Results;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -58,10 +60,13 @@ public class Courses extends Controller {
     }
 
     public Result updateCourse(long courseId) {
+        Map<String, String[]> req = new HashMap<>(request().body().asFormUrlEncoded());
+        if(req.getOrDefault("year", new String[]{""})[0].equals("null"))
+            req.remove("year");
         final Course course = Course.get(courseId);
         Restrict access = MODIFY;
         return access.require(ctx(), course.groupId, (GroupMember member) -> {
-            Form<Course> filledForm = courseForm.bindFromRequest();
+            Form<Course> filledForm = courseForm.bindFromRequest(req);
             if(filledForm.hasErrors()) return badRequest("Bad request");
             access.log(member, "Courses/edit, id: " + courseId);
             Course.update(course, filledForm.get());
@@ -70,14 +75,17 @@ public class Courses extends Controller {
     }
 
     public Result addCourse() {
-        Form<Course> form = courseForm.bindFromRequest();
+        Map<String, String[]> req = new HashMap<>(request().body().asFormUrlEncoded());
+        if(req.getOrDefault("year", new String[]{""})[0].equals("null"))
+            req.remove("year");
+        Form<Course> form = courseForm.bindFromRequest(req);
         if(courseForm.hasErrors()) return badRequest("Bad request");
         final Course course = form.get();
         Restrict access = WRITE;
         return access.require(ctx(), course.groupId, (GroupMember member) -> {
+            long newCourseId = Course.create(course);
             if(!member.filtering.contains("," + course.year + ","))
                 member.filter(member.filtering.concat(course.year + ","));
-            long newCourseId = Course.create(course);
             access.log(member, "Courses/add, id: " + newCourseId);
             return created(String.valueOf(newCourseId));
         });

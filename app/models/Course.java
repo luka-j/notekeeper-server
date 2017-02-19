@@ -59,11 +59,16 @@ public class Course extends Model {
     }
 
     public static long create(Course course) {
+        if(course.year == null) course.year = 0; //workaround...kinda
         course.save();
         if(course.year != null) {
             Group group = Group.finder.ref(course.groupId);
             if (!group.courseYears.contains("," + course.year + ",")) {
                 group.courseYears = group.courseYears + course.year + ",";
+                group.members.forEach(gm -> {
+                    gm.filter(gm.filtering + "," + course.year + ",");
+                    gm.update();
+                });
                 group.update();
             }
         }

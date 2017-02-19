@@ -161,6 +161,7 @@ public class Notes extends Controller {
     public Result showAllNotes(long courseId, String lessonName) {
         long groupId = Course.get(courseId).groupId;
         return Restrict.READ_PRESERVE_GROUP.require(ctx(), groupId, (GroupMember member) -> {
+            if(lessonName.trim().isEmpty()) return ok();
             Note.getByLesson(courseId,lessonName, member.permission).forEach((Note n) -> n.unhideFor(member.user));
             return ok("Shown");
         });

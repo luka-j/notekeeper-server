@@ -1,5 +1,6 @@
 package models;
 
+import com.avaje.ebean.Expr;
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -120,6 +121,22 @@ public class GroupMember extends Model {
         return set;
     }
 
+    @Override
+    public void save() { //masking potential PersistenceExceptions with something harder to detect... sounds about right
+        GroupMember existing = finder.where()
+                .and(Expr.eq("user_id", user.id), Expr.eq("group_id", group.id))
+                .findUnique();
+        if(existing == null)
+            super.save();
+        else {
+            existing.filtering = this.filtering;
+            existing.joinDate = this.joinDate;
+            existing.lastFetchAnnouncements = this.lastFetchAnnouncements;
+            existing.permission = this.permission;
+            existing.update();
+        }
+    }
+
     /**
      * Uses {@link GroupMember#GroupMember(User, Group, int)} to initialize mandatory fields, then sets
      * {@link #lastFetchAnnouncements} and {@link #joinDate} to appropriate times. Requires given User and Group to be
@@ -129,6 +146,10 @@ public class GroupMember extends Model {
      * @see GroupMember#GroupMember(User, Group, int)
      */
     public static GroupMember construct(User user, Group group, int permission) {
+        GroupMember existing = finder.where()
+                .and(Expr.eq("user_id", user.id), Expr.eq("group_id", group.id))
+                .findUnique();
+        if(existing != null) return existing;
         GroupMember m = new GroupMember(user, group, permission);
         long time = System.currentTimeMillis();
         m.lastFetchAnnouncements = time-READ_ANNOUNCEMENTS_PRIOR_TO_JOIN_TIME;

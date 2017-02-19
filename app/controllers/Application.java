@@ -11,7 +11,7 @@ import java.io.File;
 
 public class Application extends Controller {
 
-    public static final int ITERATON = 12;
+    public static final int ITERATON = 13;
 
     public Result index(String lang) {
         if(lang != null)
@@ -44,6 +44,10 @@ public class Application extends Controller {
             Logging.flushWriters();
             return ok("flushed");
         });
+    }
+
+    public Result getFavicon() {
+        return redirect("/assets/images/favicon.ico");
     }
 
     /*public Result testEmail() {

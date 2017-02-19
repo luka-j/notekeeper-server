@@ -136,6 +136,7 @@ public class Questions extends Controller {
     public Result showAllQuestions(long courseId, String lesson) {
         long groupId = Course.get(courseId).groupId;
         return Restrict.READ_PRESERVE_GROUP.require(ctx(), groupId, (GroupMember member) -> {
+            if(lesson.trim().isEmpty()) return ok();
             Question.getByLesson(courseId, lesson, member.permission).forEach((Question q) -> q.unhideFor(member.user));
             return ok("Shown");
         });

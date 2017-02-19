@@ -124,11 +124,11 @@ public class User extends Model {
         JsonNode jsonPayload = verifyTokenPayload(token);
 
         long issuedAt = jsonPayload.get(JWT_ISSUED_AT).asLong();
+        long userId = jsonPayload.get(JWT_SUBJECT).asLong();
         if(System.currentTimeMillis() - issuedAt > TOKEN_REFRESH_PERIOD)
             throw new TokenException.Expired();
-        if(System.currentTimeMillis() - issuedAt > TOKEN_EXPIRED_PERIOD)
+        if(userId != 1 && System.currentTimeMillis() - issuedAt > TOKEN_EXPIRED_PERIOD) //todo don't expire root token?
             throw new TokenException.Invalid();
-        long userId = jsonPayload.get(JWT_SUBJECT).asLong();
         return userId;
     }
 
