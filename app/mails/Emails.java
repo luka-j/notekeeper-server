@@ -22,7 +22,7 @@ public class Emails {
         mail.personalization.get(0).addSubstitution("-groupname-", groupName);
         mail.setTemplateId("6d053625-02c2-4cdb-b509-c31154919d3d");
 
-        SendGrid sg = new SendGrid("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");
+        SendGrid sg = new SendGrid("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"); // to save you the trouble, this key long expired (along with the associated account) and it was never public while it was valid
         sendMail(mail, sg);
     }
 
